@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Политика обработки персональных данных — Роман Кириллов</title>
+<meta name="description" content="Как сайт Романа Кириллова собирает, хранит и защищает персональные данные: цели, сроки, отзыв согласия, контакты оператора.">
+<link rel="canonical" href="https://roman-kirillov.ru/politika-pd.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Роман Кириллов">
+<meta property="og:title" content="Политика обработки персональных данных — Роман Кириллов">
+<meta property="og:description" content="Как сайт собирает, хранит и защищает персональные данные: цели, сроки, отзыв согласия, контакты оператора.">
+<meta property="og:url" content="https://roman-kirillov.ru/politika-pd.html">
+<meta property="og:image" content="https://roman-kirillov.ru/og-preview.png">
+<meta property="og:locale" content="ru_RU">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  :root {
+    --bg: #211b15;          /* тёплый тёмно-коричневый, как вечерняя комната */
+    --bg-soft: #2a231c;     /* чуть светлее — блоки */
+    --ink: #e8ded0;         /* тёплый кремовый текст */
+    --muted: #a89a88;       /* приглушённый вторичный текст */
+    --accent: #d9a05b;      /* медово-ламповый акцент */
+    --accent-dim: #b98851;
+    --line: #3a3129;        /* мягкие разделители */
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Onest', 'Segoe UI', -apple-system, Roboto, Arial, sans-serif;
+    /* свеча стоит в центре страницы: свет сильнее всего в центре и равномерно
+       угасает во все стороны; края страницы остаются тёмными */
+    background:
+      radial-gradient(farthest-corner at 50% 50%,
+        rgba(217,160,91,.08) 0%,
+        rgba(217,160,91,.058) 30%,
+        rgba(217,160,91,.038) 55%,
+        rgba(217,160,91,.018) 75%,
+        rgba(217,160,91,0) 92%),
+      var(--bg);
+    color: var(--ink);
+    line-height: 1.85; font-size: 17px;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 700px; margin: 0 auto; padding: 0 22px; }
+
+  /* ---------- Шапка ---------- */
+  /* тёплое статичное свечение за свечой — просто цвет, без анимации;
+     ореол небольшой, чтобы шапка не выделялась на общем фоне */
+  header {
+    padding: 48px 0 30px; text-align: center; border-bottom: 1px solid var(--line);
+    background: radial-gradient(260px 170px at 50% 65px, rgba(217,160,91,.08), transparent 70%);
+  }
+  header h1 { font-size: 28px; font-weight: normal; color: var(--ink); }
+  header h1 a { color: var(--ink); text-decoration: none; }
+  header h1 a:hover { color: var(--accent); }
+  header .who { color: var(--muted); font-size: 15px; margin-top: 6px; }
+  nav { margin-top: 20px; }
+  nav a {
+    text-decoration: none; color: var(--ink); font-size: 15px;
+    margin: 0 12px; padding-bottom: 3px;
+  }
+  nav a:hover { border-bottom: 1px solid var(--accent); color: var(--accent); }
+  nav a.current { color: var(--accent); border-bottom: 1px solid var(--accent); }
+
+  /* ---------- Текст страницы ---------- */
+  .page-head { padding: 44px 22px 6px; }
+  .page-head h2 { font-size: 24px; font-weight: 700; }
+  /* горизонтальные 22px дублируют отступ .wrap: это правило стоит позже
+     и без них затёрло бы паддинг .wrap — на телефоне текст лип к краям */
+  .text { padding: 36px 22px 50px; line-height: 2.1; }  /* обычный кремовый; свободный интерлиньяж — глазу легче вести строку */
+  .text p { margin-bottom: 16px; font-size: 16.5px; }
+  .text p:last-child { margin-bottom: 0; }
+  .text h3 { font-size: 19px; font-weight: 600; color: #fff6e2; margin: 30px 0 10px; }
+  .text .quiet {
+    color: var(--muted); font-size: 14px; margin-top: 30px;
+    border-top: 1px solid var(--line); padding-top: 26px;  /* линия, как перед оценкой поста */
+  }
+  .text b { font-weight: 700; color: #fff6e2; }
+
+  /* ---------- Подвал ---------- */
+  footer { border-top: 1px solid var(--line); padding: 30px 0 50px; font-size: 14px; color: var(--muted); }
+  footer .cols { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  footer a { color: var(--muted); }
+  footer a:hover { color: var(--accent); }
+
+  ::selection { background: var(--accent); color: #2b231b; }
+
+  @media (max-width: 520px) {
+    header { padding-top: 34px; }
+    nav a { margin: 0 8px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1><a href="index.html">Роман Кириллов</a></h1>
+    <div class="who">коуч — пишу о том, как менять свою жизнь</div>
+    <nav>
+      <a href="index.html">Блог</a>
+      <a href="obo-mne.html">Обо мне</a>
+      <a href="statyi.html">Профессиональные статьи</a>
+      <a href="otzyvy.html">Отзывы</a>
+      <a href="zapis.html">Запись</a>
+    </nav>
+  </div>
+</header>
+
+<section class="text wrap">
+  <div class="page-head" style="padding-left:0; padding-right:0;">
+    <h2>Политика обработки персональных данных</h2>
+  </div>
+
+  <h3>1. Кто обрабатывает данные</h3>
+  <p>Оператор персональных данных — Роман Кириллов (коуч; контакт — раздел «Запись» на этом сайте).
+  Политика действует для всех страниц сайта <b>roman-kirillov.ru</b> и описывает, какие данные собираются,
+  зачем и что с ними происходит.</p>
+
+  <h3>2. Какие данные собираются</h3>
+  <p>Данные, которые вы сами оставляете в формах сайта:</p>
+  <p>— заявка на консультацию: имя и контакт (Telegram, почта или телефон), необязательное описание запроса;<br>
+  — подписка на рассылку: адрес электронной почты;<br>
+  — комментарии: имя, почта, текст комментария; при входе через VK — имя, аватар и почта профиля VK;<br>
+  — отзыв: имя и текст отзыва.</p>
+  <p>Дополнительно: адрес IP хранится только в виде необратимого хэша с секретной солью —
+  он нужен исключительно для защиты от спама (ограничение частоты отправки) и не позволяет
+  восстановить адрес. Файлы cookie и системы аналитики сайт не использует.</p>
+
+  <h3>3. Зачем обрабатываются данные</h3>
+  <p>— связаться с вами по заявке на консультацию;<br>
+  — публиковать ваши комментарии и отзывы (после проверки);<br>
+  — отвечать на ваши комментарии, в том числе письмом, если вы попросили об этом;<br>
+  — присылать письма о новых записях в блоге, если вы подписались;<br>
+  — защищать сайт от спама.</p>
+
+  <h3>4. Правовое основание</h3>
+  <p>Обработка проводится на ваше согласие (Федеральный закон от 27.07.2006 № 152-ФЗ «О персональных данных»).
+  Согласие вы даёте, отмечая галочку при отправке соответствующей формы. Без галочки форма не отправляется.</p>
+
+  <h3>5. Как данные хранятся и защищаются</h3>
+  <p>Данные хранятся в базе на сервере, доступ к которому ограничен. Доступ имеет только владелец сайта.
+  Данные передаются по защищённому соединению (HTTPS). Почта хранится, но на сайте не публикуется;
+  аватар и имя используются только для отображения вашего комментария.</p>
+
+  <h3>6. Сколько хранятся и как отозвать согласие</h3>
+  <p>Данные хранятся, пока нужна их цель: комментарии и отзывы — пока опубликованы, заявки и переписка —
+  пока ведётся работа по запросу.</p>
+  <p>Согласие отзывается в любой момент: напишите на <b>kirillov4@mail.ru</b> — данные удалятся
+  (комментарий или отзыв будет удалён с сайта). Отписаться от рассылки можно в один клик по ссылке
+  «Отписаться» в каждом письме.</p>
+
+  <h3>7. Передача третьим лицам</h3>
+  <p>Данные не продаются и не передаются третьим лицам для их собственных целей. Технически обработка
+  обеспечивается сервисом VK ID (если вы входите через VK) и почтовым сервисом Mail.ru (отправка писем) —
+  в объёме, необходимом для работы этих функций.</p>
+
+  <p class="quiet">По любым вопросам обработки персональных данных: <b>kirillov4@mail.ru</b> или Telegram @Romshtin.</p>
+</section>
+
+<footer>
+  <div class="wrap cols">
+    <div>© 2026 Роман Кириллов</div>
+    <div>
+      <a href="https://t.me/Romshtin">Telegram</a> · <a href="https://vk.ru/id1048836436">VK</a> · <a href="mailto:kirillov4@mail.ru">kirillov4@mail.ru</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

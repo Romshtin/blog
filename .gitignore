@@ -1,0 +1,28 @@
+# Секреты сервера: админ-ключ, токен Telegram-бота, пароль приложения почты,
+# ключ VK-приложения — содержимое только в файлах рядом с main.py (600,
+# в репозиторий не входят)
+server/admin.txt
+moderaciya-otzyvov.url
+server/telegram.txt
+server/mail.txt
+server/vk.txt
+
+# Локальная база сайта (просмотры/комментарии с почтами читателей)
+server/blog.db
+server/blog.db-shm
+server/blog.db-wal
+server/indexnow-state.json
+
+# Параметры публикации (SSH-хост, порт, ключ) — только на машине владельца
+nastroyki-servera.txt
+
+# Внутренняя документация с инфраструктурными данными
+docs/
+CLAUDE.md
+
+# Кэш Python
+server/__pycache__/
+
+# Служебные файлы Windows
+Thumbs.db
+desktop.ini

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Профессиональные статьи — Роман Кириллов</title>
+<meta name="description" content="Профессиональные статьи коуча Романа Кириллова — для коллег и всех, кому интересна психология изнутри профессии.">
+<link rel="canonical" href="https://roman-kirillov.ru/statyi.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Роман Кириллов">
+<meta property="og:title" content="Профессиональные статьи — Роман Кириллов">
+<meta property="og:description" content="Статьи для коллег и всех, кому интересна психология изнутри профессии.">
+<meta property="og:url" content="https://roman-kirillov.ru/statyi.html">
+<meta property="og:image" content="https://roman-kirillov.ru/og-preview.png">
+<meta property="og:locale" content="ru_RU">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  :root {
+    --bg: #211b15;          /* тёплый тёмно-коричневый, как вечерняя комната */
+    --bg-soft: #2a231c;     /* чуть светлее — блоки */
+    --ink: #e8ded0;         /* тёплый кремовый текст */
+    --muted: #a89a88;       /* приглушённый вторичный текст */
+    --accent: #d9a05b;      /* медово-ламповый акцент */
+    --accent-dim: #b98851;
+    --line: #3a3129;        /* мягкие разделители */
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Onest', 'Segoe UI', -apple-system, Roboto, Arial, sans-serif;
+    /* свеча стоит в центре страницы: свет сильнее всего в центре и равномерно
+       угасает во все стороны; края страницы остаются тёмными */
+    background:
+      radial-gradient(farthest-corner at 50% 50%,
+        rgba(217,160,91,.08) 0%,
+        rgba(217,160,91,.058) 30%,
+        rgba(217,160,91,.038) 55%,
+        rgba(217,160,91,.018) 75%,
+        rgba(217,160,91,0) 92%),
+      var(--bg);
+    color: var(--ink);
+    line-height: 1.85; font-size: 17px;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 700px; margin: 0 auto; padding: 0 22px; }
+
+  /* ---------- Шапка ---------- */
+  header {
+    padding: 48px 0 30px; text-align: center; border-bottom: 1px solid var(--line);
+    background: radial-gradient(260px 170px at 50% 65px, rgba(217,160,91,.08), transparent 70%);
+  }
+  header h1 { font-size: 28px; font-weight: normal; color: var(--ink); }
+  header .who { color: var(--muted); font-size: 15px; margin-top: 6px; }
+  nav { margin-top: 20px; }
+  nav a {
+    text-decoration: none; color: var(--ink); font-size: 15px;
+    margin: 0 12px; padding-bottom: 3px;
+  }
+  nav a:hover { border-bottom: 1px solid var(--accent); color: var(--accent); }
+  nav a.current { color: var(--accent); border-bottom: 1px solid var(--accent); }
+
+  /* ---------- О разделе ---------- */
+  .about {
+    border-bottom: 1px solid var(--line);
+    padding: 42px 0;
+    /* без заливки — фоновое свечение проходит насквозь,
+       блок не выделяется пятном на подсвеченном фоне */
+  }
+  .about h2 { font-size: 22px; font-weight: normal; margin-bottom: 12px; }
+  .about p { font-size: 15.5px; color: var(--muted); margin-bottom: 10px; }
+  .about .disclaimer { font-size: 13.5px; color: var(--muted); opacity: .85; margin-bottom: 0; }
+
+  /* ---------- Записи ---------- */
+  .posts { padding: 30px 22px 40px; }
+  .post { padding: 26px 0; border-bottom: 1px solid var(--line); }
+  .post:last-child { border-bottom: none; }
+  .post .meta { font-size: 14px; color: var(--muted); }
+  .post h2 { font-size: 19px; font-weight: 700; margin: 6px 0 8px; }
+  .post h2 a { color: var(--ink); text-decoration: none; }
+  .post h2 a:hover { color: var(--accent); }
+  .post p { font-size: 15.5px; color: var(--muted); }
+  .posts .empty { padding: 36px 0 10px; color: var(--muted); font-size: 15.5px; text-align: center; }
+  .more { text-align: center; padding: 26px 0 50px; }
+  .more a { font-size: 15px; text-decoration: none; }
+
+  /* ---------- Подвал ---------- */
+  footer { border-top: 1px solid var(--line); padding: 30px 0 50px; font-size: 14px; color: var(--muted); }
+  footer .cols { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  footer a { color: var(--muted); }
+  footer a:hover { color: var(--accent); }
+
+  ::selection { background: var(--accent); color: #2b231b; }
+
+  @media (max-width: 520px) {
+    header { padding-top: 34px; }
+    nav a { margin: 0 8px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>Роман Кириллов</h1>
+    <div class="who">коуч — пишу о том, как менять свою жизнь</div>
+    <nav>
+      <a href="index.html">Блог</a>
+      <a href="obo-mne.html">Обо мне</a>
+      <a href="statyi.html" class="current">Профессиональные статьи</a>
+      <a href="otzyvy.html">Отзывы</a>
+      <a href="zapis.html">Запись</a>
+    </nav>
+  </div>
+</header>
+
+<section class="about">
+  <div class="wrap">
+    <h2>Профессиональные статьи</h2>
+    <p>Статьи для коллег и всех, кому интересна психология изнутри профессии:
+    как устроена работа психолога-консультанта, из чего складывается мышление
+    специалиста, что с этим делать.</p>
+    <p class="disclaimer">Статьи отражают профессиональный взгляд автора,
+    не являются медицинской услугой и не заменяют консультацию специалиста.</p>
+  </div>
+</section>
+
+<section class="posts wrap" id="posts"></section>
+
+<div class="more" hidden>
+  <a href="#">Читать более старые записи →</a>
+</div>
+
+<footer>
+  <div class="wrap cols">
+    <div>© 2026 Роман Кириллов</div>
+    <div>
+      <a href="https://t.me/Romshtin">Telegram</a> · <a href="https://vk.ru/id1048836436">VK</a> · <a href="mailto:kirillov4@mail.ru">kirillov4@mail.ru</a> · <a href="politika-pd.html">Политика обработки данных</a>
+    </div>
+  </div>
+</footer>
+
+<script src="posts.js"></script>
+<script>
+  // Дата из "2026-09-12" -> "12 сентября 2026"
+  function fmtDate(s) {
+    const m = ['января','февраля','марта','апреля','мая','июня',
+               'июля','августа','сентября','октября','ноября','декабря'];
+    const [y, mo, d] = s.split('-');
+    return +d + ' ' + m[mo - 1] + ' ' + y;
+  }
+
+  // Только посты раздела «Профессиональные статьи», свежие сверху
+  const CAT = 'Профессиональные статьи';
+  const sorted = [...POSTS].filter(p => p.category === CAT)
+                            .sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id);
+  const box = document.getElementById('posts');
+  const more = document.querySelector('.more');
+  const PAGE_SIZE = 10;
+  let shown = 0;
+  let stats = null;
+
+  function plural(n, forms) {  // forms: ['просмотр', 'просмотра', 'просмотров']
+    return (n % 10 === 1 && n % 100 !== 11) ? forms[0]
+         : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? forms[1]
+         : forms[2];
+  }
+
+  function postHtml(p) {
+    return `
+    <article class="post">
+      <div class="meta" data-id="${p.id}">🕒 ${fmtDate(p.date)}</div>
+      <h2><a href="post.html?id=${p.id}">${p.title}</a></h2>
+      <p>${p.excerpt}</p>
+    </article>`;
+  }
+
+  // Счётчики просмотров и комментариев (нужен запущенный server/, на file:// тихо не показываются)
+  function applyCounters() {
+    if (!stats) return;
+    document.querySelectorAll('#posts .meta').forEach(el => {
+      if (el.dataset.done) return;  // не задваивать при повторном вызове
+      el.dataset.done = '1';
+      const v = stats.views[el.dataset.id];
+      const c = stats.comments[el.dataset.id];
+      let add = '';
+      if (v) add += ' · 👁️ ' + v + ' ' + plural(v, ['просмотр', 'просмотра', 'просмотров']);
+      if (c) add += ' · 💬 ' + c + ' ' + plural(c, ['комментарий', 'комментария', 'комментариев']);
+      el.textContent += add;
+    });
+  }
+
+  // Пока в разделе нет постов — аккуратная пустая строка вместо пустой ленты
+  function showEmptyIfNone() {
+    if (sorted.length === 0) {
+      box.insertAdjacentHTML('beforeend',
+        '<p class="empty">Пока в этом разделе ничего нет — статьи появятся здесь в ближайшее время.</p>');
+    }
+  }
+
+  function showMore() {
+    const next = sorted.slice(shown, shown + PAGE_SIZE);
+    box.insertAdjacentHTML('beforeend', next.map(postHtml).join(''));
+    shown += next.length;
+    more.hidden = shown >= sorted.length;  // кнопка видна, только если есть что показать
+    applyCounters();
+  }
+
+  showMore();
+  showEmptyIfNone();
+  more.querySelector('a').addEventListener('click', e => {
+    e.preventDefault();
+    showMore();
+  });
+
+  // Счётчики видны и здесь, когда отвечает server/
+  fetch('/api/stats')
+    .then(r => r.ok ? r.json() : null)
+    .then(s => { stats = s; applyCounters(); })
+    .catch(() => {});
+</script>
+</body>
+</html>

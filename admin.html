@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Редактор блога — Роман Кириллов</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%F0%9F%95%AF%EF%B8%8F</text></svg>">
+<style>
+  :root {
+    --bg: #211b15;
+    --bg-soft: #2a231c;
+    --ink: #e8ded0;
+    --muted: #a89a88;
+    --accent: #d9a05b;
+    --accent-dim: #b98851;
+    --danger: #c96f5b;
+    --line: #3a3129;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Onest', 'Segoe UI', -apple-system, Roboto, Arial, sans-serif;
+    background: var(--bg); color: var(--ink);
+    line-height: 1.7; font-size: 16px;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 22px; }
+
+  header { padding: 34px 0 22px; text-align: center; border-bottom: 1px solid var(--line); }
+  header .lamp { font-size: 26px; margin-bottom: 8px; }
+  header h1 { font-size: 24px; font-weight: normal; }
+  header h1 a { color: var(--ink); text-decoration: none; }
+  header h1 a:hover { color: var(--accent); }
+  header p { color: var(--muted); font-size: 14px; margin-top: 6px; }
+
+  h2 { font-size: 19px; font-weight: normal; margin: 36px 0 14px; color: var(--accent); }
+  .link-h2 a { color: var(--accent); text-decoration: none; }
+  .link-h2 a:hover { text-decoration: underline; }
+
+  /* ---------- Форма ---------- */
+  label { display: block; font-size: 14px; color: var(--muted); margin: 14px 0 5px; }
+  input[type="text"], input[type="date"], select, textarea {
+    font-family: inherit; font-size: 15px; color: var(--ink);
+    background: #2e261f; border: 1px solid var(--line); border-radius: 6px;
+    padding: 9px 12px; width: 100%;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-dim); }
+  .row { display: flex; gap: 14px; }
+  .row > div { flex: 1; }
+  textarea { min-height: 200px; resize: vertical; line-height: 1.7; }
+
+  button {
+    font-family: inherit; font-size: 15px; padding: 10px 22px;
+    border: none; border-radius: 6px; cursor: pointer;
+  }
+  .btn-main { background: var(--accent); color: #2b231b; font-weight: bold; }
+  .btn-main:hover { background: #e6b276; }
+  .btn-ghost {
+    background: transparent; color: var(--ink); border: 1px solid var(--line);
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-row { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+
+  .hidden { display: none; }
+
+  /* ---------- Картинки поста ---------- */
+  .img-list { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+  .img-item { position: relative; }
+  .img-item img { width: 110px; height: 74px; object-fit: cover; border-radius: 8px; display: block; }
+  .img-item .img-x {
+    position: absolute; top: 4px; right: 4px;
+    font-size: 13px; padding: 1px 8px; line-height: 1.4;
+  }
+
+  /* ---------- Выбор толщины линии ---------- */
+  .line-wrap { position: relative; display: inline-flex; }
+  .line-wrap .caret { opacity: .65; margin-left: 2px; }
+  .line-menu {
+    position: absolute; top: calc(100% + 6px); left: 0; z-index: 20;
+    background: var(--bg-soft); border: 1px solid var(--line); border-radius: 10px;
+    padding: 6px; display: flex; flex-direction: column; gap: 2px; min-width: 160px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.35);
+  }
+  .line-menu.hidden { display: none; }  /* важен порядок: перекрывает display:flex выше */
+  .line-menu button {
+    display: flex; align-items: center; gap: 10px;
+    width: 100%; background: transparent; border: none; border-radius: 6px;
+    color: var(--ink); font-size: 14px; padding: 8px 10px; cursor: pointer;
+    text-align: left;
+  }
+  .line-menu button:hover { background: #352c24; }
+  .line-menu .preview { display: inline-block; width: 64px; background: var(--line); border-radius: 2px; }
+  .line-menu .preview.t1 { height: 2px; }
+  .line-menu .preview.t2 { height: 4px; }
+  .line-menu .preview.t3 { height: 6px; background: var(--accent-dim); }
+
+  /* ---------- Список постов ---------- */
+  .post-item {
+    background: var(--bg-soft); border: 1px solid var(--line); border-radius: 10px;
+    padding: 16px 20px; margin-bottom: 12px;
+    display: flex; justify-content: space-between; align-items: center; gap: 14px;
+  }
+  .post-item .t { font-size: 16px; }
+  .post-item .m { font-size: 13px; color: var(--muted); margin-top: 3px; }
+  .post-item .actions { display: flex; gap: 8px; flex-shrink: 0; }
+  .btn-sm { font-size: 13px; padding: 6px 14px; }
+  .btn-fmt { min-width: 38px; text-align: center; padding: 6px 10px; font-size: 15px; }
+  .btn-fmt b { font-weight: 700; }
+  .mark-demo { background: rgba(217,160,91,.28); border-radius: 3px; padding: 1px 5px; }
+  .hicon { display: inline-block; width: 16px; vertical-align: middle; }
+  .hicon i { display: block; height: 2px; background: currentColor; margin: 3px 0; border-radius: 1px; }
+  .hicon i:nth-child(1) { width: 16px; }
+  .hicon i:nth-child(2) { width: 10px; }
+  .hicon i:nth-child(3) { width: 13px; }
+  .hicon i { margin-left: 0; }              /* по левому краю */
+  .hicon.right i { margin-left: auto; }     /* по правому */
+  #btn-center .hicon i { margin-left: auto; margin-right: auto; }  /* по центру */
+  .btn-del { background: transparent; border: 1px solid var(--line); color: var(--danger); }
+  .btn-del:hover { border-color: var(--danger); }
+
+  /* ---------- Отзывы клиентов ---------- */
+  .rv-item {
+    background: var(--bg-soft); border: 1px solid var(--line); border-radius: 10px;
+    padding: 14px 18px; margin-bottom: 12px;
+  }
+  .rv-item textarea { min-height: 90px; margin-top: 10px; }
+  .rv-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .rv-head input { flex: 1; }
+
+  /* ---------- Подсказка ---------- */
+  .note {
+    background: var(--bg-soft); border: 1px solid var(--line); border-radius: 10px;
+    padding: 16px 20px; margin-top: 26px; font-size: 14.5px; color: var(--muted);
+  }
+  .note b { color: var(--accent); }
+
+  .empty { color: var(--muted); font-style: italic; font-size: 15px; }
+
+  /* ---------- Сворачиваемые подсказки ---------- */
+  .hints { margin-top: 26px; }
+  .hints summary {
+    cursor: pointer; color: var(--accent); font-size: 15px;
+    user-select: none; display: inline-block;
+  }
+  .hints .note { margin-top: 12px; }
+
+  /* ---------- Предпросмотр ---------- */
+  .pv {
+    background: var(--bg); border: 1px solid var(--line); border-radius: 10px;
+    padding: 26px 26px 6px; margin-bottom: 8px;
+  }
+  .pv .pv-title { font-size: 24px; font-weight: 700; line-height: 1.4; margin-bottom: 3px; }
+  .pv .pv-meta { font-size: 14px; color: var(--muted); margin-bottom: 3px; }
+  .pv .pv-body { font-size: 17px; line-height: 1.85; padding-top: 12px; }
+  .pv .pv-body p { margin-bottom: 26px; }
+  .pv .pv-body p:last-child { margin-bottom: 10px; }
+  /* превью показывает обычный кремовый — как на живых страницах */
+  /* превью показывает обычный кремовый — как на живых страницах */
+  .pv .pv-body b { font-weight: 700; color: #fff6e2; }
+  .pv .pv-body mark { background: rgba(217,160,91,.28); color: var(--ink); padding: 0 5px; border-radius: 4px; }
+  .pv .pv-body span.line { display: block; }
+  .pv .pv-body span.c { text-align: center; }
+  .pv .pv-body span.r { text-align: right; }
+  .pv .pv-body hr { border: none; border-top: 1px solid var(--line); margin: 30px 0; }
+  .pv .pv-body hr.t2 { border-top-width: 2px; }
+  .pv .pv-body hr.t3 { border-top-width: 3px; border-color: var(--accent-dim); }
+  .pv .pv-img { display: block; width: 100%; border-radius: 12px; margin: 3px 0; }
+  .pv .pv-empty { color: var(--muted); font-style: italic; }
+  /* [блок]…[/блок] — рамка-плашка, как приветствие на главной;
+     -26px = отступы предпросмотра, чтобы текст в блоке был ровно с основным */
+  .pv .pv-body .box { background: var(--bg-soft); border-radius: 12px; padding: 18px 22px; margin: 6px -26px; }
+  .pv .pv-body .box p:last-child { margin-bottom: 0; }
+
+  .flash {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: var(--accent); color: #2b231b; font-weight: bold;
+    padding: 12px 26px; border-radius: 999px; font-size: 15px;
+    opacity: 0; transition: opacity .3s; pointer-events: none;
+  }
+  .flash.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="lamp">✒️</div>
+    <h1><a href="admin.html" title="Вернуться к чистому редактору">Редактор блога</a></h1>
+    <p>Страница только для вас — посетителям блога она не видна</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div id="view-main">
+
+  <h2 id="form-title">Новый пост</h2>
+  <form id="form">
+    <label for="f-title">Заголовок</label>
+    <input type="text" id="f-title" required>
+
+    <div class="row">
+      <div>
+        <label for="f-date">Дата</label>
+        <input type="date" id="f-date" required>
+      </div>
+      <div>
+        <label for="f-cat">Раздел</label>
+        <select id="f-cat">
+          <option>Профессиональные статьи</option>
+          <option>Практики</option>
+          <option>Ответы на вопросы</option>
+          <option>Дневник</option>
+          <option>Истории клиентов</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="f-excerpt">Краткое описание (видно в списке на главной)</label>
+    <textarea id="f-excerpt" style="min-height:60px" required></textarea>
+
+    <label for="f-content">Текст поста</label>
+    <textarea id="f-content" required></textarea>
+
+    <div class="btn-row" style="margin-top:10px">
+      <button type="button" class="btn-ghost btn-sm btn-fmt" id="btn-bold" title="Жирный (Ctrl+B)"><b>Ж</b></button>
+      <button type="button" class="btn-ghost btn-sm btn-fmt" id="btn-italic" title="Курсив (Ctrl+I)"><i>К</i></button>
+      <button type="button" class="btn-ghost btn-sm btn-fmt" id="btn-mark" title="Маркер (Ctrl+M)"><span class="mark-demo">A</span></button>
+      <button type="button" class="btn-ghost btn-sm btn-fmt" id="btn-center" title="Строка по центру">
+        <span class="hicon"><i></i><i></i><i></i></span>
+      </button>
+      <button type="button" class="btn-ghost btn-sm btn-fmt" id="btn-right" title="Строка справа">
+        <span class="hicon right"><i></i><i></i><i></i></span>
+      </button>
+      <button type="button" class="btn-ghost btn-sm btn-fmt" id="btn-box" title="Блок в рамке">🔲</button>
+      <span class="line-wrap">
+        <button type="button" class="btn-ghost btn-sm" id="btn-line" title="Вставить линию">— — линия <span class="caret">▾</span></button>
+        <div id="line-menu" class="line-menu hidden">
+          <button type="button" data-dashes="2"><span class="preview t1"></span>тонкая</button>
+          <button type="button" data-dashes="3"><span class="preview t2"></span>средняя</button>
+          <button type="button" data-dashes="4"><span class="preview t3"></span>толстая</button>
+        </div>
+      </span>
+      <button type="button" class="btn-ghost btn-sm btn-fmt" id="btn-img" title="Картинка в месте курсора">📎</button>
+      <input type="file" id="f-img" accept="image/*" class="hidden">
+    </div>
+    <div id="img-list" class="img-list hidden"></div>
+
+    <div class="btn-row">
+      <button type="submit" class="btn-main" id="btn-submit">Добавить пост</button>
+      <button type="button" class="btn-ghost hidden" id="btn-cancel">Отменить редактирование</button>
+    </div>
+  </form>
+
+  <div id="pv-wrap" class="hidden">
+    <h2>Предпросмотр</h2>
+    <div class="pv" id="preview"></div>
+  </div>
+
+  <h2>Опубликованные посты</h2>
+  <div id="list"></div>
+
+  <h2 class="link-h2"><a href="#about">Раздел «Обо мне»</a></h2>
+
+  <h2 class="link-h2"><a href="#otzyvy">Отзывы клиентов</a></h2>
+
+  <div class="btn-row">
+    <button class="btn-main js-publish">🚀 Опубликовать на сайте</button>
+    <button class="btn-ghost js-download">📥 Скачать posts.js</button>
+  </div>
+
+  <details class="hints">
+    <summary>❓ Подсказки — как оформить пост</summary>
+    <div class="note">
+      <b>Как опубликовать пост:</b><br>
+      1. Напишите пост выше — он сразу сохранится в браузере (черновик не потеряется).<br>
+      2. Нажмите «🚀 Опубликовать на сайте» — пост появится на сайте сразу.<br><br>
+      <b>Раздел «Обо мне»:</b> нажмите на его название ниже списка постов —
+      откроется отдельная страница правки. Разметка и картинки — те же,
+      что в постах.
+      Кнопка «назад» в браузере вернёт на главную страницу админки.
+      Скачанный posts.js обновит и посты, и «Обо мне» — два файла не нужно.<br><br>
+      <b>Выделение:</b> выделите слово и нажмите кнопку или Ctrl+B (жирный),
+      Ctrl+I (курсив), Ctrl+M (маркер — медовая подсветка). Вручную: **жирный**,
+      *курсив*, ==маркер==. Ошибка — Ctrl+Z вернёт как было.<br>
+      <b>Выравнивание строки:</b> поставьте курсор в строку и нажмите «По центру»
+      или «Справа» — эта одна строка выровняется, остальные останутся как были
+      (метка [центр] или [справа] в начале строки).<br>
+      <b>Картинка (в посте и в «Обо мне»):</b> поставьте курсор в нужное место
+      текста и нажмите «📎» — вставится метка [картинка:…], на её месте
+      появится фото.
+      Все картинки видны под полем текста, крестик убирает фото.<br>
+      <b>Линия-разделитель:</b> «— — линия ▾» — выберите толщину в списке
+      (тонкая / средняя / толстая), линия вставится в место курсора.<br>
+      <b>Блок в рамке 🔲:</b> выделите текст и нажмите кнопку — на сайте он будет
+      в скруглённой рамке (как приветствие на главной). Вручную: строка [блок]
+      перед текстом и строка [/блок] после.<br>
+      Картинки вшиваются прямо в posts.js, поэтому тяжёлые фотографии
+      (больше 1–2 МБ) сделают файл большим и медленным. По возможности уменьшайте
+      фото перед загрузкой.
+    </div>
+  </details>
+
+  </div><!-- /view-main -->
+
+  <div id="view-about" class="hidden">
+    <h2>Обо мне</h2>
+    <form id="form-about">
+      <label for="f-about">Текст раздела — разметка та же, что в постах</label>
+      <textarea id="f-about" style="min-height:260px"></textarea>
+      <div class="btn-row" style="margin-top:10px">
+        <button type="button" class="btn-ghost btn-sm btn-fmt" id="ab-bold" title="Жирный (Ctrl+B)"><b>Ж</b></button>
+        <button type="button" class="btn-ghost btn-sm btn-fmt" id="ab-italic" title="Курсив (Ctrl+I)"><i>К</i></button>
+        <button type="button" class="btn-ghost btn-sm btn-fmt" id="ab-mark" title="Маркер (Ctrl+M)"><span class="mark-demo">A</span></button>
+        <button type="button" class="btn-ghost btn-sm btn-fmt" id="ab-box" title="Блок в рамке">🔲</button>
+        <button type="button" class="btn-ghost btn-sm btn-fmt" id="ab-center" title="Строка по центру">
+          <span class="hicon"><i></i><i></i><i></i></span>
+        </button>
+        <button type="button" class="btn-ghost btn-sm btn-fmt" id="ab-right" title="Строка справа">
+          <span class="hicon right"><i></i><i></i><i></i></span>
+        </button>
+        <span class="line-wrap">
+          <button type="button" class="btn-ghost btn-sm" id="ab-line" title="Вставить линию">— — линия <span class="caret">▾</span></button>
+          <div id="ab-line-menu" class="line-menu hidden">
+            <button type="button" data-dashes="2"><span class="preview t1"></span>тонкая</button>
+            <button type="button" data-dashes="3"><span class="preview t2"></span>средняя</button>
+            <button type="button" data-dashes="4"><span class="preview t3"></span>толстая</button>
+          </div>
+        </span>
+        <button type="button" class="btn-ghost btn-sm btn-fmt" id="ab-img" title="Картинка в месте курсора">📎</button>
+        <input type="file" id="ab-f-img" accept="image/*" class="hidden">
+      </div>
+      <div id="ab-img-list" class="img-list hidden"></div>
+      <div class="btn-row">
+        <button type="submit" class="btn-main">Сохранить изменения</button>
+        <button type="button" class="btn-ghost" id="btn-about-cancel">Отменить редактирование</button>
+      </div>
+    </form>
+
+    <div class="pv hidden" id="about-pv" style="margin-top:14px">
+      <div class="pv-body" id="about-pv-body"></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-main js-publish">🚀 Опубликовать на сайте</button>
+      <button class="btn-ghost js-download">📥 Скачать posts.js</button>
+    </div>
+  </div>
+
+  <div id="view-otzyvy" class="hidden">
+    <h2>Отзывы клиентов</h2>
+    <p class="empty">Здесь — отзывы, которые вы добавляете сами. Отзывы читателей
+    приходят на модерацию прямо на страницу «Отзывы» сайта:
+    <a id="rv-mod-link" href="https://roman-kirillov.ru/otzyvy.html" target="_blank">открыть модерацию отзывов</a>
+    (ссылка с вашим ключом — по ней панель «На проверке» появляется сама).</p>
+    <div id="rv-list"></div>
+    <div class="btn-row">
+      <button type="button" class="btn-ghost" id="rv-add">+ Добавить отзыв</button>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-main js-publish">🚀 Опубликовать на сайте</button>
+      <button class="btn-ghost js-download">📥 Скачать posts.js</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="flash" id="flash"></div>
+
+<script src="posts.js"></script>
+<script>
+  const LS_KEY = 'rk_blog_draft';
+  const $ = id => document.getElementById(id);
+
+  let posts;
+
+  // Если в браузере сохранена рабочая копия — берём её, чтобы ваши
+  // записи с прошлого сеанса не потерялись
+  const saved = localStorage.getItem(LS_KEY);
+  if (saved) {
+    posts = JSON.parse(saved);
+  } else {
+    posts = structuredClone(POSTS);
+  }
+
+  function saveLocal() {
+    try {
+      localStorage.setItem(LS_KEY, JSON.stringify(posts));
+    } catch (e) {
+      // Черновик в браузере имеет лимит объёма — большие картинки могут его переполнить
+      flash('Черновик не сохранился — скачайте posts.js. Картинка, наверное, слишком большая');
+      throw e;
+    }
+  }
+
+  function flash(msg) {
+    const f = $('flash');
+    f.textContent = msg;
+    f.classList.add('show');
+    setTimeout(() => f.classList.remove('show'), 2200);
+  }
+
+  function nextId() {
+    return posts.reduce((mx, p) => Math.max(mx, p.id), 0) + 1;
+  }
+
+  function renderList() {
+    const box = $('list');
+    if (!posts.length) {
+      box.innerHTML = '<p class="empty">Пока пусто. Напишите первый пост выше.</p>';
+      return;
+    }
+    box.innerHTML = '';
+    [...posts].sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id).forEach(p => {
+      const div = document.createElement('div');
+      div.className = 'post-item';
+      const info = document.createElement('div');
+      info.innerHTML = `<div class="t"></div><div class="m"></div>`;
+      info.querySelector('.t').textContent = p.title;
+      info.querySelector('.m').textContent = p.date + ' · ' + p.category;
+      const act = document.createElement('div');
+      act.className = 'actions';
+      const bE = document.createElement('button');
+      bE.className = 'btn-ghost btn-sm'; bE.textContent = 'Править';
+      bE.onclick = () => startEdit(p.id);
+      const bD = document.createElement('button');
+      bD.className = 'btn-sm btn-del'; bD.textContent = 'Удалить';
+      bD.onclick = () => { if (confirm('Удалить пост «' + p.title + '»?')) removePost(p.id); };
+      act.append(bE, bD);
+      div.append(info, act);
+      box.append(div);
+    });
+  }
+
+  let editingId = null;
+  let lastEditId = null;   // последний редактировавшийся пост — для кнопки «Вперёд»
+
+  // ---------- Картинки в тексте (пост или «Обо мне») ----------
+  // Фабрика: своя пара «кнопка 📎 + скрытый выбор файла + список миниатюр»
+  // для каждой текстовой области. imgs — объект «ключ (img1, img2…) -> data-URL».
+  // Каждый раз imgs создаётся заново (не правится в месте), чтобы уже
+  // сохранённый пост не увидел чужих изменений.
+  function imageTools(btnId, fileId, listId, taId, onChange) {
+    const ta = $(taId);
+    const api = { imgs: {} };
+
+    function renderList() {
+      const box = $(listId);
+      box.innerHTML = '';
+      const keys = Object.keys(api.imgs);
+      box.classList.toggle('hidden', !keys.length);
+      keys.forEach(key => {
+        const item = document.createElement('div');
+        item.className = 'img-item';
+        const img = document.createElement('img');
+        img.src = api.imgs[key];
+        img.title = '[картинка:' + key + ']';
+        const x = document.createElement('button');
+        x.type = 'button';
+        x.className = 'btn-sm btn-del img-x';
+        x.textContent = '×';
+        x.title = 'Убрать картинку';
+        x.onclick = () => {
+          const cp = Object.assign({}, api.imgs);
+          delete cp[key];
+          api.imgs = cp;
+          ta.value = ta.value.replace(new RegExp('\\s*\\[картинка:' + key + '\\]', 'g'), '');
+          renderList();
+          onChange();
+        };
+        item.append(img, x);
+        box.append(item);
+      });
+    }
+
+    $(btnId).onclick = () => $(fileId).click();
+
+    $(fileId).addEventListener('change', () => {
+      const file = $(fileId).files[0];
+      $(fileId).value = '';   // сброс сразу: чтобы можно было выбрать тот же файл повторно
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        // следующий свободный ключ: img1, img2, …
+        const n = Object.keys(api.imgs).reduce((mx, k) => {
+          const m = k.match(/^img(\d+)$/);
+          return Math.max(mx, m ? +m[1] : 0);
+        }, 0) + 1;
+        const key = 'img' + n;
+        api.imgs = Object.assign({}, api.imgs, { [key]: reader.result });
+        insertAtCursor('[картинка:' + key + ']', ta);
+        renderList();
+        onChange();
+      };
+      reader.readAsDataURL(file);
+    });
+
+    api.set = src => { api.imgs = src ? structuredClone(src) : {}; renderList(); };
+    api.reset = () => { api.imgs = {}; $(fileId).value = ''; renderList(); };
+    return api;
+  }
+
+  const postImages = imageTools('btn-img', 'f-img', 'img-list', 'f-content', renderPreview);
+
+  // ---------- Жирный / курсив в тексте (пост или «Обо мне») ----------
+  function wrapMarkup(mark, ta) {
+    ta = ta || $('f-content');
+    ta.focus();
+    const a = ta.selectionStart, b = ta.selectionEnd;
+    const sel = ta.value.slice(a, b);
+    // insertText вместо прямой правки value: так правка попадает в родную
+    // историю браузера и Ctrl+Z её отменяет
+    if (!document.execCommand('insertText', false, mark + sel + mark)) {
+      ta.setRangeText(mark + sel + mark, a, b, 'end'); // запасной путь
+    }
+    if (sel) {
+      // оставляем выделенным сам текст, чтобы можно было применить и второй стиль
+      const s = a + mark.length;
+      ta.setSelectionRange(s, s + sel.length);
+    } else {
+      ta.setSelectionRange(a + mark.length, a + mark.length);
+    }
+  }
+  $('btn-bold').onclick = () => wrapMarkup('**');
+  $('btn-italic').onclick = () => wrapMarkup('*');
+  $('btn-mark').onclick = () => wrapMarkup('==');
+
+  // Рамка-блок: выделите текст и нажмите 🔲 — он окажется между [блок] и [/блок];
+  // метки встают на свои строки, без лишних пустых строк. Без выделения вставятся
+  // обе метки, и курсор встанет между ними
+  function wrapBox(ta) {
+    ta = ta || $('f-content');
+    ta.focus();
+    const a = ta.selectionStart, b = ta.selectionEnd;
+    const sel = ta.value.slice(a, b);
+    const text = '[блок]\n' + (sel ? sel + '\n' : '') + '[/блок]';
+    if (!document.execCommand('insertText', false, text)) {
+      ta.setRangeText(text, a, b, 'end'); // запасной путь
+    }
+    if (!sel) {
+      const pos = a + '[блок]\n'.length;
+      ta.setSelectionRange(pos, pos);
+    }
+  }
+  $('btn-box').onclick = () => wrapBox($('f-content'));
+  $('ab-box').onclick  = () => wrapBox($('f-about'));
+
+  // Выравнивание абзаца: метка в начале строки, где стоит курсор
+  function prefixLine(prefix, ta) {
+    ta = ta || $('f-content');
+    ta.focus();
+    const a = ta.selectionStart;
+    const lineStart = ta.value.lastIndexOf('\n', a - 1) + 1;
+    ta.setSelectionRange(lineStart, lineStart);
+    if (!document.execCommand('insertText', false, prefix)) {
+      ta.setRangeText(prefix, lineStart, lineStart, 'end'); // запасной путь
+    }
+  }
+  $('btn-center').onclick = () => prefixLine('[центр]');
+  $('btn-right').onclick = () => prefixLine('[справа]');
+
+  // Линия-разделитель; клик по кнопке открывает выбор толщины
+  function setupLineMenu(btnId, menuId, ta) {
+    $(btnId).onclick = e => {
+      e.stopPropagation();
+      $(menuId).classList.toggle('hidden');
+    };
+    document.querySelectorAll('#' + menuId + ' button').forEach(b => {
+      b.onclick = () => {
+        insertAtCursor('-'.repeat(+b.dataset.dashes), ta);
+        $(menuId).classList.add('hidden');
+      };
+    });
+  }
+  setupLineMenu('btn-line', 'line-menu', $('f-content'));
+  setupLineMenu('ab-line', 'ab-line-menu', $('f-about'));
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.line-wrap'))
+      document.querySelectorAll('.line-menu').forEach(m => m.classList.add('hidden'));
+  });
+
+  // Вставка текста в место курсора (с поддержкой Ctrl+Z)
+  function insertAtCursor(text, ta) {
+    ta = ta || $('f-content');
+    ta.focus();
+    const a = ta.selectionStart, b = ta.selectionEnd;
+    if (!document.execCommand('insertText', false, text)) {
+      ta.setRangeText(text, a, b, 'end'); // запасной путь
+    }
+  }
+
+  // Ctrl+B — жирный, Ctrl+I — курсив, Ctrl+M — маркер (когда курсор в тексте).
+  // Проверяем физическую клавишу (e.code), поэтому работает на любой раскладке
+  function bindHotkeys(ta) {
+    ta.addEventListener('keydown', e => {
+      if (!(e.ctrlKey || e.metaKey) || e.altKey || e.shiftKey) return;
+      if (e.code === 'KeyB') { e.preventDefault(); wrapMarkup('**', ta); }
+      if (e.code === 'KeyI') { e.preventDefault(); wrapMarkup('*', ta); }
+      if (e.code === 'KeyM') { e.preventDefault(); wrapMarkup('==', ta); }
+    });
+  }
+  bindHotkeys($('f-content'));
+  bindHotkeys($('f-about'));
+
+  // Форма
+  $('f-date').value = new Date().toISOString().slice(0, 10);
+
+  $('form').addEventListener('submit', e => {
+    e.preventDefault();
+    const data = {
+      title:    $('f-title').value.trim(),
+      date:     $('f-date').value,
+      category: $('f-cat').value,
+      excerpt:  $('f-excerpt').value.trim(),
+      content:  $('f-content').value.replace(/\r\n/g, '\n').trim()
+    };
+    if (Object.keys(postImages.imgs).length) data.images = postImages.imgs;
+    if (editingId) {
+      const p = posts.find(p => p.id === editingId);
+      Object.assign(p, data);
+      delete p.image;                      // старое поле «картинка после заголовка» больше не используется
+      if (!data.images) delete p.images;
+      flash('Пост обновлён ✓');
+      stopEdit();
+    } else {
+      posts.push({ id: nextId(), ...data });
+      flash('Пост добавлен ✓');
+    }
+    saveLocal();
+    renderList();
+    e.target.reset();
+    $('f-date').value = new Date().toISOString().slice(0, 10);
+    postImages.reset();
+  });
+
+  function startEdit(id) {
+    editingId = id;
+    const p = posts.find(p => p.id === id);
+    $('f-title').value = p.title;
+    $('f-date').value = p.date;
+    $('f-cat').value = p.category;
+    $('f-excerpt').value = p.excerpt;
+    if (p.images) {
+      postImages.set(p.images);
+      $('f-content').value = p.content;
+    } else if (p.image) {
+      // Старая картинка «после заголовка» -> превращаем в метку в начале текста
+      postImages.set({ img1: p.image });
+      $('f-content').value = '[картинка:img1]\n\n' + p.content;
+    } else {
+      postImages.reset();
+      $('f-content').value = p.content;
+    }
+    renderPreview();
+    $('form-title').classList.add('hidden');
+    $('btn-submit').textContent = 'Сохранить изменения';
+    $('btn-cancel').classList.remove('hidden');
+    // Правка = отдельный шаг истории: кнопка «назад» в браузере вернёт к списку
+    lastEditId = id;
+    if (location.hash !== '#edit') location.hash = 'edit';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function stopEdit() {
+    editingId = null;
+    $('form').reset();
+    $('f-date').value = new Date().toISOString().slice(0, 10);
+    postImages.reset();
+    $('form-title').classList.remove('hidden');
+    renderPreview();
+    $('btn-submit').textContent = 'Добавить пост';
+    $('btn-cancel').classList.add('hidden');
+    // Убираем #edit из адреса без лишнего шага истории
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+  }
+
+  $('btn-cancel').onclick = stopEdit;
+
+  // Назад (адрес потерял #edit/#about) — выходим из правки;
+  // Вперёд (адрес снова с #edit/#about) — возвращаемся к правке
+  window.addEventListener('hashchange', () => {
+    const h = location.hash;
+    if (!h) {
+      if (editingId) stopEdit();
+      else if (aboutEditing) stopAboutEdit();
+      else if (otzyvyEditing) stopOtzyvyEdit();
+    } else if (h === '#edit' && !editingId && !aboutEditing && !otzyvyEditing && lastEditId &&
+               posts.some(p => p.id === lastEditId)) startEdit(lastEditId);
+    else if (h === '#about' && !aboutEditing && !editingId && !otzyvyEditing) startAboutEdit();
+    else if (h === '#otzyvy' && !otzyvyEditing && !editingId && !aboutEditing) startOtzyvyEdit();
+  });
+
+  function removePost(id) {
+    posts = posts.filter(p => p.id !== id);
+    saveLocal();
+    renderList();
+    flash('Пост удалён');
+  }
+
+  // Сборка текста posts.js (посты + «Обо мне»): общая для скачивания
+  // и для публикации на сервер; кнопки есть на главной странице
+  // и на странице правки «Обо мне»
+  function buildPostsText() {
+    // берём текст «Обо мне» прямо из поля: чтобы попало и без кнопки «Сохранить»
+    about = $('f-about').value.replace(/\r\n/g, '\n').trim();
+    try { localStorage.setItem(LS_ABOUT, about); } catch (e) {}
+    saveAboutImgsDraft();
+    const body = posts.map(p => '  ' + JSON.stringify(p, null, 2).replace(/\n/g, '\n  ')).join(',\n');
+    // картинки «Обо мне» пишутся в файл, только если они есть
+    const aboutImgsPart = Object.keys(aboutImages.imgs).length
+      ? '\n// Картинки раздела «Обо мне» — правятся через admin.html.\nconst ABOUT_IMAGES = ' + JSON.stringify(aboutImages.imgs) + ';\n'
+      : '';
+    // отзывы берём прямо из полей: чтобы попали и без кнопки «Сохранить»
+    const reviews = collectReviews();
+    saveReviewsDraft(reviews);
+    return `// Файл-хранилище постов блога.\n// Создаётся и обновляется через admin.html — вручную его править не нужно.\n\nconst POSTS = [\n${body}\n];\n\n// Текст страницы «Обо мне» — правится через admin.html.\nconst ABOUT = ${JSON.stringify(about)};\n${aboutImgsPart}\n// Отзывы клиентов, добавленные владельцем, — правятся через admin.html.\n// Отзывы читателей живут в базе на сервере и подгружаются с него.\nconst REVIEWS = ${JSON.stringify(reviews)};\n`;
+  }
+
+  function downloadPosts() {
+    const blob = new Blob([buildPostsText()], { type: 'text/javascript' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'posts.js';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    flash('Файл скачан — он понадобится, если сайт недоступен');
+  }
+  document.querySelectorAll('.js-download').forEach(b => b.onclick = downloadPosts);
+
+  // Публикация прямо с сайта: posts.js уходит на VPS по HTTPS с админ-ключом.
+  // Админка обычно открыта с file:// — тогда зовём сайт по абсолютному адресу.
+  async function publishPosts() {
+    const key = localStorage.getItem('rk_blog_owner_key')
+      || (prompt('Вставьте админ-ключ (файл server/admin.txt на VPS):') || '');
+    if (!key) return;
+    // ключ запоминается: после первого ввода больше не спрашивается
+    try { localStorage.setItem('rk_blog_owner_key', key); } catch (e) {}
+    const base = location.protocol.startsWith('http') ? '' : 'https://roman-kirillov.ru';
+    try {
+      const r = await fetch(base + '/api/admin/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key, content: buildPostsText() }),
+      });
+      if (r.ok) { flash('Опубликовано ✓ — сайт уже обновился'); return; }
+      if (r.status === 403) {  // ключ неверный — не хранить, спросить заново в следующий раз
+        try { localStorage.removeItem('rk_blog_owner_key'); } catch (e) {}
+      }
+      const d = await r.json().catch(() => null);
+      flash((d && d.detail) ? d.detail : 'Не удалось опубликовать (ошибка сервера)');
+    } catch (e) {
+      // сюда попадает и ошибка сети, и падение buildPostsText() (оно не про
+      // сервер) — показываем реальную причину, чтобы не гадать на Flash
+      console.error('Публикация не удалась:', e);
+      flash('Не удалось опубликовать: ' + (e && e.message ? e.message : e) + ' — скачайте posts.js и попробуйте позже');
+    }
+  }
+  document.querySelectorAll('.js-publish').forEach(b => b.onclick = publishPosts);
+
+  // ---------- Раздел «Обо мне» ----------
+  const LS_ABOUT = 'rk_blog_about';
+  // Черновик из браузера; если его нет — текст из posts.js
+  let about = localStorage.getItem(LS_ABOUT);
+  if (about === null) about = (typeof ABOUT !== 'undefined' && ABOUT) ? ABOUT : '';
+  $('f-about').value = about;
+  let aboutEditing = false;
+
+  // Картинки «Обо мне» — тот же механизм, что у постов; хранятся в posts.js
+  // отдельной константой ABOUT_IMAGES. Черновик-объект {} («картинок нет»)
+  // главнее ABOUT_IMAGES, пустой черновик (null) — нет
+  const LS_ABOUT_IMGS = 'rk_blog_about_imgs';
+  const aboutImages = imageTools('ab-img', 'ab-f-img', 'ab-img-list', 'f-about', renderAboutPreview);
+  let aboutImgsDraft = null;
+  try { aboutImgsDraft = JSON.parse(localStorage.getItem(LS_ABOUT_IMGS)); } catch (e) {}
+  aboutImages.set(aboutImgsDraft ||
+                  ((typeof ABOUT_IMAGES !== 'undefined' && ABOUT_IMAGES) ? ABOUT_IMAGES : null));
+
+  function saveAboutImgsDraft() {
+    try {
+      localStorage.setItem(LS_ABOUT_IMGS, JSON.stringify(aboutImages.imgs));
+    } catch (err) {
+      flash('Картинки «Обо мне» не сохранились в браузер — нажмите «📥 Скачать posts.js»');
+    }
+  }
+
+  $('ab-bold').onclick   = () => wrapMarkup('**', $('f-about'));
+  $('ab-italic').onclick = () => wrapMarkup('*',  $('f-about'));
+  $('ab-mark').onclick   = () => wrapMarkup('==', $('f-about'));
+  $('ab-center').onclick = () => prefixLine('[центр]',  $('f-about'));
+  $('ab-right').onclick  = () => prefixLine('[справа]', $('f-about'));
+
+  // Клик по «Раздел «Обо мне»» меняет адрес на #about — дальше срабатывает
+  // hashchange ниже; так правка раздела становится шагом истории,
+  // и кнопка «назад» в браузере возвращает на главную страницу админки
+  function startAboutEdit() {
+    aboutEditing = true;
+    $('view-main').classList.add('hidden');
+    $('view-about').classList.remove('hidden');
+    if (location.hash !== '#about') location.hash = 'about';
+    renderAboutPreview();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function stopAboutEdit() {
+    aboutEditing = false;
+    $('view-about').classList.add('hidden');
+    $('view-main').classList.remove('hidden');
+    // Убираем #about из адреса без лишнего шага истории
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+  }
+
+  $('btn-about-cancel').onclick = stopAboutEdit;
+
+  $('form-about').addEventListener('submit', e => {
+    e.preventDefault();
+    about = $('f-about').value.replace(/\r\n/g, '\n').trim();
+    $('f-about').value = about;
+    try {
+      localStorage.setItem(LS_ABOUT, about);
+    } catch (err) {
+      flash('В браузер не сохранилось — нажмите «📥 Скачать posts.js»');
+    }
+    saveAboutImgsDraft();
+    flash('Сохранено ✓ — не забудьте «🚀 Опубликовать на сайте»');
+    stopAboutEdit();
+  });
+
+  function renderAboutPreview() {
+    const has = $('f-about').value.trim();
+    $('about-pv').classList.toggle('hidden', !has);
+    if (has) $('about-pv-body').innerHTML =
+      renderContentPV($('f-about').value.replace(/\r\n/g, '\n').trim(), aboutImages.imgs);
+  }
+  $('form-about').addEventListener('input', renderAboutPreview);
+
+  // ---------- Отзывы клиентов ----------
+  const LS_REVIEWS = 'rk_blog_reviews';
+  // Черновик-список из браузера; если его нет — REVIEWS из posts.js
+  let reviewsDraft = null;
+  try { reviewsDraft = JSON.parse(localStorage.getItem(LS_REVIEWS)); } catch (e) {}
+  let otzyvyEditing = false;
+
+  function reviewItem(r) {
+    const div = document.createElement('div');
+    div.className = 'rv-item';
+    const head = document.createElement('div');
+    head.className = 'rv-head';
+    const name = document.createElement('input');
+    name.type = 'text'; name.placeholder = 'Имя'; name.maxLength = 60;
+    name.value = r.name || '';
+    const del = document.createElement('button');
+    del.type = 'button'; del.className = 'btn-sm btn-del'; del.textContent = '✕ удалить';
+    del.onclick = () => {
+      div.remove();
+      saveReviewsDraft(collectReviews());
+    };
+    head.append(name, del);
+    const text = document.createElement('textarea');
+    text.placeholder = 'Текст отзыва';
+    text.value = r.text || '';
+    [name, text].forEach(el => el.addEventListener('input', () => saveReviewsDraft(collectReviews())));
+    div.append(head, text);
+    return div;
+  }
+
+  // Собираем отзывы прямо из полей: чтобы попали и без кнопки «Сохранить»
+  function collectReviews() {
+    return [...document.querySelectorAll('#rv-list .rv-item')].map(div => ({
+      name: div.querySelector('input').value.trim(),
+      text: div.querySelector('textarea').value.replace(/\r\n/g, '\n').trim(),
+    })).filter(r => r.name || r.text);
+  }
+
+  function saveReviewsDraft(list) {
+    try {
+      localStorage.setItem(LS_REVIEWS, JSON.stringify(list));
+    } catch (e) {
+      flash('Отзывы не сохранились в браузер — нажмите «📥 Скачать posts.js»');
+    }
+  }
+
+  $('rv-add').onclick = () => {
+    $('rv-list').appendChild(reviewItem({ name: '', text: '' }));
+    saveReviewsDraft(collectReviews());
+  };
+
+  function startOtzyvyEdit() {
+    otzyvyEditing = true;
+    $('view-main').classList.add('hidden');
+    $('view-otzyvy').classList.remove('hidden');
+    // ссылка на модерацию — с сохранённым ключом, чтобы панель
+    // «На проверке» на сайте появилась сразу
+    const key = localStorage.getItem('rk_blog_owner_key') || '';
+    $('rv-mod-link').href = 'https://roman-kirillov.ru/otzyvy.html'
+      + (key ? '?key=' + encodeURIComponent(key) : '');
+    if (location.hash !== '#otzyvy') location.hash = 'otzyvy';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function stopOtzyvyEdit() {
+    otzyvyEditing = false;
+    $('view-otzyvy').classList.add('hidden');
+    $('view-main').classList.remove('hidden');
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+  }
+
+  function renderReviews(list) {
+    const box = $('rv-list');
+    box.innerHTML = '';
+    (list || []).forEach(r => box.appendChild(reviewItem(r)));
+  }
+
+  renderReviews(reviewsDraft || ((typeof REVIEWS !== 'undefined' && REVIEWS) ? REVIEWS : []));
+
+  // ---------- Приветствие на главной ----------
+  // (редактор удалён по просьбе владельца)
+
+  // ---------- Предпросмотр ----------
+  const MONTHS = ['января','февраля','марта','апреля','мая','июня',
+                  'июля','августа','сентября','октября','ноября','декабря'];
+  function fmtDate(s) {
+    if (!s) return '';
+    const [y, mo, d] = s.split('-');
+    return +d + ' ' + (MONTHS[mo - 1] || mo) + ' ' + y;
+  }
+
+  function renderInlinePV(line, imgs) {
+    const esc = line
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return esc
+      .replace(/==([^=]+)==/g, '<mark>$1</mark>')
+      .replace(/\[картинка:(\w+)\]/g, (m, key) =>
+        imgs[key] ? '<img class="pv-img" src="' + imgs[key] + '" alt="">' : m)
+      .replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>')
+      .replace(/\*([^*]+)\*/g, '<i>$1</i>');
+  }
+
+  function renderParPV(par, imgs) {
+    const out = [];
+      let buf = [];
+      const flush = () => {
+        if (!buf.length) return;
+        let html = '', prevBlk = true;
+        buf.forEach(it => {
+          if (!prevBlk && !it.blk) html += '<br>';
+          html += it.h;
+          prevBlk = it.blk;
+        });
+        out.push('<p>' + html + '</p>');
+        buf = [];
+      };
+      par.split('\n').forEach(rawLine => {
+        let line = rawLine, cls = '';
+        if (line.startsWith('[центр]'))       { cls = 'c'; line = line.slice(7); }
+        else if (line.startsWith('[справа]')) { cls = 'r'; line = line.slice(8); }
+        if (/^-{2,4}$/.test(line.trim())) {
+          flush();
+          out.push('<hr class="t' + (line.trim().length - 1) + '">');
+        } else {
+          const inner = renderInlinePV(line, imgs);
+          buf.push({ h: cls ? '<span class="line ' + cls + '">' + inner + '</span>' : inner, blk: !!cls });
+        }
+      });
+      flush();
+      return out.join('');
+  }
+
+  // [блок] и [/блок] (каждый на своей строке) обрамляют текст рамкой-плашкой
+  function renderContentPV(content, imgs) {
+    const marked = content
+      .replace(/^[ \t]*\[блок\][ \t]*$/gm, '\x01')
+      .replace(/^[ \t]*\[\/блок\][ \t]*$/gm, '\x02');
+    let html = '', open = false;
+    marked.split(/([\x01\x02])/).forEach(seg => {
+      if (seg === '\x01') { if (!open) { html += '<div class="box">'; open = true; } }
+      else if (seg === '\x02') { if (open) { html += '</div>'; open = false; } }
+      else if (seg) html += seg.split(/\n\s*\n/).map(par => par.trim()).filter(par => par)
+        .map(par => renderParPV(par, imgs)).join('');
+    });
+    if (open) html += '</div>';
+    return html;
+  }
+
+  function renderPreview() {
+    // Показываем предпросмотр только когда есть что показывать
+    const has = $('f-title').value.trim() || $('f-content').value.trim();
+    $('pv-wrap').classList.toggle('hidden', !has);
+    if (!has) return;
+    const box = $('preview');
+    box.innerHTML = '';
+    const content = $('f-content').value.replace(/\r\n/g, '\n').trim();
+    const t = document.createElement('div');
+    t.className = 'pv-title';
+    t.textContent = $('f-title').value.trim() || 'Заголовок поста';
+    const m = document.createElement('div');
+    m.className = 'pv-meta';
+    m.textContent = fmtDate($('f-date').value) + ' · ' + $('f-cat').value;
+    box.append(m, t);
+    const b = document.createElement('div');
+    b.className = 'pv-body';
+    if (content) {
+      b.innerHTML = renderContentPV(content, postImages.imgs);
+    } else {
+      b.innerHTML = '<p class="pv-empty">Начните писать текст — здесь появится пост.</p>';
+    }
+    box.append(b);
+  }
+
+  // Обновлять предпросмотр при любом изменении в форме
+  $('form').addEventListener('input', renderPreview);
+  $('form').addEventListener('change', renderPreview);
+
+  renderList();
+  renderPreview();
+  renderAboutPreview();
+  // Если страница перезагружена, пока была открыта правка, — возвращаемся в неё
+  if (location.hash === '#about') startAboutEdit();
+  if (location.hash === '#otzyvy') startOtzyvyEdit();
+</script>
+
+</body>
+</html>

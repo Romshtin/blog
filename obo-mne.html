@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Обо мне — Роман Кириллов</title>
+<meta name="description" content="Роман Кириллов — коуч. Опыт, подход и образование.">
+<link rel="canonical" href="https://roman-kirillov.ru/obo-mne.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Роман Кириллов">
+<meta property="og:title" content="Обо мне — Роман Кириллов">
+<meta property="og:description" content="Роман Кириллов — коуч. Опыт, подход и образование.">
+<meta property="og:url" content="https://roman-kirillov.ru/obo-mne.html">
+<meta property="og:image" content="https://roman-kirillov.ru/og-preview.png">
+<meta property="og:locale" content="ru_RU">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  :root {
+    --bg: #211b15;          /* тёплый тёмно-коричневый, как вечерняя комната */
+    --bg-soft: #2a231c;     /* чуть светлее — блоки */
+    --ink: #e8ded0;         /* тёплый кремовый текст */
+    --muted: #a89a88;       /* приглушённый вторичный текст */
+    --accent: #d9a05b;      /* медово-ламповый акцент */
+    --accent-dim: #b98851;
+    --line: #3a3129;        /* мягкие разделители */
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Onest', 'Segoe UI', -apple-system, Roboto, Arial, sans-serif;
+    /* свеча стоит в центре страницы: свет сильнее всего в центре и равномерно
+       угасает во все стороны; края страницы остаются тёмными */
+    background:
+      radial-gradient(farthest-corner at 50% 50%,
+        rgba(217,160,91,.08) 0%,
+        rgba(217,160,91,.058) 30%,
+        rgba(217,160,91,.038) 55%,
+        rgba(217,160,91,.018) 75%,
+        rgba(217,160,91,0) 92%),
+      var(--bg);
+    color: var(--ink);
+    line-height: 1.85; font-size: 17px;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 700px; margin: 0 auto; padding: 0 22px; }
+
+  /* ---------- Шапка ---------- */
+  /* тёплое статичное свечение за свечой — просто цвет, без анимации;
+     ореол небольшой, чтобы шапка не выделялась на общем фоне */
+  header {
+    padding: 48px 0 30px; text-align: center; border-bottom: 1px solid var(--line);
+    background: radial-gradient(260px 170px at 50% 65px, rgba(217,160,91,.08), transparent 70%);
+  }
+  header h1 { font-size: 28px; font-weight: normal; color: var(--ink); }
+  header h1 a { color: var(--ink); text-decoration: none; }
+  header h1 a:hover { color: var(--accent); }
+  header .who { color: var(--muted); font-size: 15px; margin-top: 6px; }
+  nav { margin-top: 20px; }
+  nav a {
+    text-decoration: none; color: var(--ink); font-size: 15px;
+    margin: 0 12px; padding-bottom: 3px;
+  }
+  nav a:hover { border-bottom: 1px solid var(--accent); color: var(--accent); }
+  nav a.current { color: var(--accent); border-bottom: 1px solid var(--accent); }
+
+  /* ---------- Текст страницы ---------- */
+  .page-head { padding: 44px 22px 6px; }
+  .page-head h2 { font-size: 24px; font-weight: 700; }
+  /* горизонтальные 22px дублируют отступ .wrap: это правило стоит позже
+     и без них затёрло бы паддинг .wrap — на телефоне текст лип к краям,
+     а плашки .box с отрицательным полем вылезали за экран */
+  .text { padding: 36px 22px 50px; line-height: 2.1; }  /* обычный кремовый; свободный интерлиньяж — глазу легче вести строку */
+  .text p { margin-bottom: 16px; font-size: 16.5px; }
+  .text p:last-child { margin-bottom: 0; }
+  .text .quiet {
+    color: var(--muted); font-size: 14px; margin-top: 30px;
+    border-top: 1px solid var(--line); padding-top: 26px;  /* линия, как перед оценкой поста */
+  }
+  /* та же разметка, что в постах */
+  .text b { font-weight: 700; color: #fff6e2; }
+  .text mark { background: rgba(217,160,91,.28); color: var(--ink); padding: 0 5px; border-radius: 4px; }
+  .text span.line { display: block; }
+  .text span.c { text-align: center; }
+  .text span.r { text-align: right; }
+  .text hr { border: none; border-top: 1px solid var(--line); margin: 26px 0; }
+  .text hr.t2 { border-top-width: 2px; }
+  .text hr.t3 { border-top-width: 3px; border-color: var(--accent-dim); }
+  /* [блок]…[/блок] — рамка-плашка, как приветствие на главной:
+     растёт в стороны на ширину отступов колонки, текст внутри ровно с основным текстом */
+  .text .box { background: #201a14; border-radius: 12px; padding: 18px 22px; margin: 6px -22px; }
+  .text .box p:last-child { margin-bottom: 0; }
+  /* картинки из [картинка:…] — на всю ширину колонки, со скруглением, как в постах */
+  .text .about-img { display: block; width: 100%; border-radius: 12px; margin: 3px 0; }
+
+  /* ---------- Подвал ---------- */
+  footer { border-top: 1px solid var(--line); padding: 30px 0 50px; font-size: 14px; color: var(--muted); }
+  footer .cols { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  footer a { color: var(--muted); }
+  footer a:hover { color: var(--accent); }
+
+  ::selection { background: var(--accent); color: #2b231b; }
+
+  @media (max-width: 520px) {
+    header { padding-top: 34px; }
+    nav a { margin: 0 8px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1><a href="index.html">Роман Кириллов</a></h1>
+    <div class="who">коуч — пишу о том, как менять свою жизнь</div>
+    <nav>
+      <a href="index.html">Блог</a>
+      <a href="obo-mne.html" class="current">Обо мне</a>
+      <a href="statyi.html">Профессиональные статьи</a>
+      <a href="otzyvy.html">Отзывы</a>
+      <a href="zapis.html">Запись</a>
+    </nav>
+  </div>
+</header>
+
+<section class="text wrap">
+  <div id="about-text"></div>
+
+  <p class="quiet">Если хотите решить свой вопрос — напишите мне на странице <a href="zapis.html">Запись</a>.<br>Познакомиться с моими мыслями и практикой можно в <a href="index.html">блоге</a>.</p>
+</section>
+
+<footer>
+  <div class="wrap cols">
+    <div>© 2026 Роман Кириллов</div>
+    <div>
+      <a href="https://t.me/Romshtin">Telegram</a> · <a href="https://vk.ru/id1048836436">VK</a> · <a href="mailto:kirillov4@mail.ru">kirillov4@mail.ru</a> · <a href="politika-pd.html">Политика обработки данных</a>
+    </div>
+  </div>
+</footer>
+
+<script src="posts.js"></script>
+<script>
+  // Текст берётся из posts.js (const ABOUT) — правится через admin.html.
+  // Разметка та же, что в постах: **жирный**, *курсив*, ==маркер==,
+  // строка из дефисов — линия, [центр]/[справа] — выравнивание строки,
+  // [блок]…[/блок] — рамка-плашка, [картинка:ключ] — картинка (ABOUT_IMAGES).
+  const about = (typeof ABOUT !== 'undefined' && ABOUT) ? ABOUT : '';
+  const aboutImgs = (typeof ABOUT_IMAGES !== 'undefined' && ABOUT_IMAGES) ? ABOUT_IMAGES : {};
+
+  function renderInline(line, imgs) {
+    const esc = line
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return esc
+      .replace(/==([^=]+)==/g, '<mark>$1</mark>')
+      .replace(/\[картинка:(\w+)\]/g, (m, key) =>
+        imgs[key] ? '<img class="about-img" src="' + imgs[key] + '" alt="Иллюстрация к разделу «Обо мне»">' : m)
+      .replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>')
+      .replace(/\*([^*]+)\*/g, '<i>$1</i>');
+  }
+
+  function renderPar(par, imgs) {
+    const out = [];
+    let buf = [];
+    const flush = () => {
+      if (!buf.length) return;
+      let html = '', prevBlk = true;
+      buf.forEach(it => {
+        if (!prevBlk && !it.blk) html += '<br>';
+        html += it.h;
+        prevBlk = it.blk;
+      });
+      out.push('<p>' + html + '</p>');
+      buf = [];
+    };
+    par.split('\n').forEach(rawLine => {
+      let line = rawLine, cls = '';
+      if (line.startsWith('[центр]'))       { cls = 'c'; line = line.slice(7); }
+      else if (line.startsWith('[справа]')) { cls = 'r'; line = line.slice(8); }
+      if (/^-{2,4}$/.test(line.trim())) {
+        flush();
+        out.push('<hr class="t' + (line.trim().length - 1) + '">');
+      } else {
+        const inner = renderInline(line, imgs);
+        buf.push({ h: cls ? '<span class="line ' + cls + '">' + inner + '</span>' : inner, blk: !!cls });
+      }
+    });
+    flush();
+    return out.join('');
+  }
+
+  // [блок] и [/блок] (каждый на своей строке) обрамляют текст рамкой-плашкой
+  function renderContent(content, imgs) {
+    const marked = content
+      .replace(/^[ \t]*\[блок\][ \t]*$/gm, '\x01')
+      .replace(/^[ \t]*\[\/блок\][ \t]*$/gm, '\x02');
+    let html = '', open = false;
+    marked.split(/([\x01\x02])/).forEach(seg => {
+      if (seg === '\x01') { if (!open) { html += '<div class="box">'; open = true; } }
+      else if (seg === '\x02') { if (open) { html += '</div>'; open = false; } }
+      else if (seg) html += seg.split(/\n\s*\n/).map(par => par.trim()).filter(par => par)
+        .map(par => renderPar(par, imgs)).join('');
+    });
+    if (open) html += '</div>';
+    return html;
+  }
+
+  if (about) document.getElementById('about-text').innerHTML = renderContent(about, aboutImgs);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Запись — Роман Кириллов</title>
+<meta name="description" content="Запись на консультацию к коучу Роману Кириллову: Telegram @Romshtin, почта kirillov4@mail.ru.">
+<link rel="canonical" href="https://roman-kirillov.ru/zapis.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Роман Кириллов">
+<meta property="og:title" content="Запись на консультацию — Роман Кириллов">
+<meta property="og:description" content="Запись на консультацию: Telegram @Romshtin, почта kirillov4@mail.ru.">
+<meta property="og:url" content="https://roman-kirillov.ru/zapis.html">
+<meta property="og:image" content="https://roman-kirillov.ru/og-preview.png">
+<meta property="og:locale" content="ru_RU">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  :root {
+    --bg: #211b15;          /* тёплый тёмно-коричневый, как вечерняя комната */
+    --bg-soft: #2a231c;     /* чуть светлее — блоки */
+    --ink: #e8ded0;         /* тёплый кремовый текст */
+    --muted: #a89a88;       /* приглушённый вторичный текст */
+    --accent: #d9a05b;      /* медово-ламповый акцент */
+    --accent-dim: #b98851;
+    --line: #3a3129;        /* мягкие разделители */
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Onest', 'Segoe UI', -apple-system, Roboto, Arial, sans-serif;
+    /* свеча стоит в центре страницы: свет сильнее всего в центре и равномерно
+       угасает во все стороны; края страницы остаются тёмными */
+    background:
+      radial-gradient(farthest-corner at 50% 50%,
+        rgba(217,160,91,.08) 0%,
+        rgba(217,160,91,.058) 30%,
+        rgba(217,160,91,.038) 55%,
+        rgba(217,160,91,.018) 75%,
+        rgba(217,160,91,0) 92%),
+      var(--bg);
+    color: var(--ink);
+    line-height: 1.85; font-size: 17px;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 700px; margin: 0 auto; padding: 0 22px; }
+
+  /* ---------- Шапка ---------- */
+  /* тёплое статичное свечение за свечой — просто цвет, без анимации;
+     ореол небольшой, чтобы шапка не выделялась на общем фоне */
+  header {
+    padding: 48px 0 30px; text-align: center; border-bottom: 1px solid var(--line);
+    background: radial-gradient(260px 170px at 50% 65px, rgba(217,160,91,.08), transparent 70%);
+  }
+  header h1 { font-size: 28px; font-weight: normal; color: var(--ink); }
+  header h1 a { color: var(--ink); text-decoration: none; }
+  header h1 a:hover { color: var(--accent); }
+  header .who { color: var(--muted); font-size: 15px; margin-top: 6px; }
+  nav { margin-top: 20px; }
+  nav a {
+    text-decoration: none; color: var(--ink); font-size: 15px;
+    margin: 0 12px; padding-bottom: 3px;
+  }
+  nav a:hover { border-bottom: 1px solid var(--accent); color: var(--accent); }
+  nav a.current { color: var(--accent); border-bottom: 1px solid var(--accent); }
+
+  /* ---------- Текст страницы ---------- */
+  .page-head { padding: 44px 22px 6px; }
+  .page-head h2 { font-size: 24px; font-weight: normal; }
+  .page-head p { color: var(--muted); font-size: 15.5px; margin-top: 8px; }
+  .page-head .price { margin-top: 14px; }
+  /* горизонтальные 22px — как в obo-mne: правило стоит позже .wrap
+     и без них затирает его паддинг (форма вылезала за экран телефона) */
+  .text { padding: 16px 22px 50px; }
+
+  /* плашки темнее фона страницы — со свечением bg-soft на них сливается */
+  .contacts { margin-bottom: 26px; padding: 24px 28px; background: #201a14; }
+  .contacts h3 { font-size: 18px; font-weight: normal; margin-bottom: 10px; }
+  .contacts p { font-size: 16px; margin-bottom: 6px; }
+  .contacts p:last-child { margin-bottom: 0; }
+  .quiet { color: var(--muted); font-size: 15.5px; }
+
+  /* ---------- Форма записи ---------- */
+  .bform {
+    background: #201a14; border-radius: 12px;
+    padding: 24px 22px; margin: 26px -22px 30px;
+  }
+  .bform .row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .bform .row input { flex: 1 1 200px; }
+  .bform input, .bform textarea {
+    font-family: inherit; font-size: 15px; padding: 10px 14px;
+    border: 1px solid var(--line); background: #2e261f; border-radius: 6px;
+    color: var(--ink); width: 100%; margin-bottom: 10px;
+  }
+  .bform textarea { resize: vertical; min-height: 84px; }
+  .bform input:focus, .bform textarea:focus { outline: none; border-color: var(--accent-dim); }
+  .bform ::placeholder { color: #7d7161; }
+  .bform button {
+    font-family: inherit; font-size: 15px; padding: 10px 22px;
+    background: var(--accent); color: #2b231b; font-weight: bold;
+    border: none; border-radius: 6px; cursor: pointer;
+  }
+  .bform button:hover { background: #e6b276; }
+  .bform button:disabled { opacity: .6; cursor: default; }
+  .bform .err { color: #d97b6c; font-size: 14px; margin-top: 8px; min-height: 18px; }
+  .bform .note { color: var(--muted); font-size: 13px; margin: 6px 0 0; }
+  /* галочка согласия на обработку ПД — стиль как у «уведомлять» в комментариях */
+  .bform label.consent {
+    display: block; font-size: 14px; color: var(--muted);
+    margin: 2px 0 12px; cursor: pointer; user-select: none;
+  }
+  .bform label.consent input { width: auto; margin: 0 6px 0 0; vertical-align: -2px; accent-color: var(--accent); }
+  .okbox {
+    background: #201a14; border-radius: 12px; padding: 22px;
+    margin: 26px -22px 30px; font-size: 16px;
+  }
+  .okbox b { color: var(--accent); }
+
+  /* ---------- Подвал ---------- */
+  footer { border-top: 1px solid var(--line); padding: 30px 0 50px; font-size: 14px; color: var(--muted); }
+  footer .cols { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  footer a { color: var(--muted); }
+  footer a:hover { color: var(--accent); }
+
+  ::selection { background: var(--accent); color: #2b231b; }
+
+  @media (max-width: 520px) {
+    header { padding-top: 34px; }
+    nav a { margin: 0 8px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1><a href="index.html">Роман Кириллов</a></h1>
+    <div class="who">коуч — пишу о том, как менять свою жизнь</div>
+    <nav>
+      <a href="index.html">Блог</a>
+      <a href="obo-mne.html">Обо мне</a>
+      <a href="statyi.html">Профессиональные статьи</a>
+      <a href="otzyvy.html">Отзывы</a>
+      <a href="zapis.html" class="current">Запись</a>
+    </nav>
+  </div>
+</header>
+
+<section class="page-head wrap">
+  <h2>Запись на консультацию</h2>
+  <p>Если чувствуете, что вам нужна помощь — оставьте заявку. На первой встрече мы спокойно разберём вашу ситуацию и поймём что делать дальше.</p>
+  <p class="price">Консультация (1 час) — 2000 ₽.</p>
+  <p>Напишите пару строк о себе и о том, с чем хотите поработать, — и предложите время, когда вам удобно.</p>
+</section>
+
+<section class="text wrap">
+  <div id="bookwrap" hidden>
+    <form id="bform" class="bform">
+      <div class="row">
+        <input id="bname" type="text" placeholder="Имя *" required maxlength="60">
+        <input id="bcontact" type="text" placeholder="Контакт: Telegram / почта / телефон *" required maxlength="100">
+      </div>
+      <textarea id="bmsg" placeholder="Пару слов о запросе — необязательно" maxlength="1000"></textarea>
+      <label class="consent"><input type="checkbox" required>Согласен на <a href="politika-pd.html" target="_blank">обработку персональных данных</a></label>
+      <button type="submit" id="bsend">Отправить заявку</button>
+      <div class="err" id="berr"></div>
+      <p class="note">Заявка придёт мне в Telegram — я свяжусь с вами по оставленному контакту.</p>
+    </form>
+  </div>
+  <div id="bookok" class="okbox" hidden>
+    <b>Заявка отправлена.</b> Я напишу вам по оставленному контакту — обычно отвечаю в течение дня.
+  </div>
+  <p class="quiet">Предпочитаете написать напрямую? <a href="https://t.me/Romshtin">Telegram</a> · <a href="https://vk.ru/id1048836436">VK</a> · <a href="mailto:kirillov4@mail.ru">kirillov4@mail.ru</a><br>Отвечаю обычно в течение дня.</p>
+</section>
+
+<script>
+  // Форма видна, только когда отвечает server/ (на file:// её нет —
+  // тогда остаются контакты ниже)
+  fetch('/api/stats')
+    .then(r => { if (r.ok) document.getElementById('bookwrap').hidden = false; })
+    .catch(() => {});
+
+  document.getElementById('bform').addEventListener('submit', ev => {
+    ev.preventDefault();
+    const err = document.getElementById('berr');
+    const btn = document.getElementById('bsend');
+    err.textContent = '';
+    btn.disabled = true;
+    fetch('/api/booking', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: document.getElementById('bname').value,
+        contact: document.getElementById('bcontact').value,
+        message: document.getElementById('bmsg').value,
+      }),
+    }).then(async r => {
+      btn.disabled = false;
+      if (r.ok) {
+        document.getElementById('bookwrap').hidden = true;
+        document.getElementById('bookok').hidden = false;
+        return;
+      }
+      const data = await r.json().catch(() => null);
+      err.textContent = (data && data.detail) ? data.detail : 'Не удалось отправить заявку.';
+    }).catch(() => {
+      btn.disabled = false;
+      err.textContent = 'Не удалось отправить заявку — напишите мне напрямую в Telegram или на почту.';
+    });
+  });
+</script>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Роман Кириллов · <a href="politika-pd.html">Политика обработки данных</a></div>
+  </div>
+</footer>
+
+</body>
+</html>

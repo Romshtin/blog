@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Роман Кириллов — блог коуча</title>
+<meta name="description" content="Блог коуча Романа Кириллова — записи о психологии, отношениях и работе с собой. Новые посты каждую неделю.">
+<link rel="canonical" href="https://roman-kirillov.ru/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Роман Кириллов">
+<meta property="og:title" content="Роман Кириллов — блог коуча">
+<meta property="og:description" content="Записи о психологии, отношениях и работе с собой. Новые посты каждую неделю.">
+<meta property="og:url" content="https://roman-kirillov.ru/">
+<meta property="og:image" content="https://roman-kirillov.ru/og-preview.png">
+<meta property="og:locale" content="ru_RU">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  :root {
+    --bg: #211b15;          /* тёплый тёмно-коричневый, как вечерняя комната */
+    --bg-soft: #2a231c;     /* чуть светлее — блоки */
+    --ink: #e8ded0;         /* тёплый кремовый текст */
+    --muted: #a89a88;       /* приглушённый вторичный текст */
+    --accent: #d9a05b;      /* медово-ламповый акцент */
+    --accent-dim: #b98851;
+    --line: #3a3129;        /* мягкие разделители */
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Onest', 'Segoe UI', -apple-system, Roboto, Arial, sans-serif;
+    /* свеча стоит в центре страницы: свет сильнее всего в центре и равномерно
+       угасает во все стороны; края страницы остаются тёмными */
+    background:
+      radial-gradient(farthest-corner at 50% 50%,
+        rgba(217,160,91,.08) 0%,
+        rgba(217,160,91,.058) 30%,
+        rgba(217,160,91,.038) 55%,
+        rgba(217,160,91,.018) 75%,
+        rgba(217,160,91,0) 92%),
+      var(--bg);
+    color: var(--ink);
+    line-height: 1.85; font-size: 17px;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 700px; margin: 0 auto; padding: 0 22px; }
+
+  /* ---------- Шапка ---------- */
+  /* тёплое статичное свечение за свечой — просто цвет, без анимации;
+     ореол небольшой, чтобы шапка не выделялась на общем фоне */
+  header {
+    padding: 48px 0 30px; text-align: center; border-bottom: 1px solid var(--line);
+    background: radial-gradient(260px 170px at 50% 65px, rgba(217,160,91,.08), transparent 70%);
+  }
+  header h1 { font-size: 28px; font-weight: normal; color: var(--ink); }
+  header .who { color: var(--muted); font-size: 15px; margin-top: 6px; }
+  nav { margin-top: 20px; }
+  nav a {
+    text-decoration: none; color: var(--ink); font-size: 15px;
+    margin: 0 12px; padding-bottom: 3px;
+  }
+  nav a:hover { border-bottom: 1px solid var(--accent); color: var(--accent); }
+  nav a.current { color: var(--accent); border-bottom: 1px solid var(--accent); }
+
+  /* ---------- Записи ---------- */
+  /* горизонтальные 22px = отступ .wrap: .posts/.subscribe перекрывали его
+     своим padding, и текст ленты лип к краю колонки, съезжая влево от «Обо мне» */
+  .posts { padding: 30px 22px 40px; }
+  .post { padding: 26px 0; border-bottom: 1px solid var(--line); }
+  .post:last-child { border-bottom: none; }
+  .post .meta { font-size: 14px; color: var(--muted); }
+  .post h2 { font-size: 19px; font-weight: 700; margin: 6px 0 8px; }
+  .post h2 a { color: var(--ink); text-decoration: none; }
+  .post h2 a:hover { color: var(--accent); }
+  .post p { font-size: 15.5px; color: var(--muted); }
+  .more { text-align: center; padding: 26px 0 50px; }
+  .more a { font-size: 15px; text-decoration: none; }
+
+  /* ---------- Обо мне ---------- */
+  .about {
+    border-bottom: 1px solid var(--line);
+    padding: 42px 0;
+    /* без заливки — фоновое свечение проходит насквозь,
+       блок не выделяется пятном на подсвеченном фоне */
+  }
+  .about h2 { font-size: 22px; font-weight: normal; margin-bottom: 12px; }
+  .about p { font-size: 15.5px; color: var(--muted); margin-bottom: 10px; }
+  .about .more-link { font-size: 14.5px; }
+
+  /* ---------- Подписка ---------- */
+  .subscribe { padding: 44px 22px; }
+  .subscribe h2 { font-size: 22px; font-weight: normal; margin-bottom: 10px; }
+  .subscribe p { font-size: 15.5px; color: var(--muted); margin-bottom: 18px; }
+  .subscribe form { display: flex; gap: 10px; flex-wrap: wrap; }
+  .subscribe input[type="email"] {
+    font-family: inherit; font-size: 15px; padding: 10px 14px;
+    border: 1px solid var(--line); background: #2e261f; border-radius: 6px;
+    width: 260px; color: var(--ink);
+  }
+  .subscribe input[type="email"]:focus { outline: none; border-color: var(--accent-dim); }
+  .subscribe input[type="email"]::placeholder { color: #7d7161; }
+  .subscribe button {
+    font-family: inherit; font-size: 15px; padding: 10px 22px;
+    background: var(--accent); color: #2b231b; font-weight: bold;
+    border: none; border-radius: 6px; cursor: pointer;
+  }
+  .subscribe button:hover { background: #e6b276; }
+  .subscribe .sub-ok { color: var(--muted); font-size: 15px; }
+  .subscribe .sub-err { color: #d98a76; font-size: 14px; margin-top: 10px; }
+  /* галочки согласия — стиль как у «уведомлять» в комментариях; строка под полем */
+  .subscribe .consents { flex-basis: 100%; margin-top: 2px; }
+  .subscribe .consents label {
+    display: block; font-size: 14px; color: var(--muted);
+    cursor: pointer; user-select: none;
+  }
+  .subscribe .consents input { width: auto; margin: 0 6px 0 0; vertical-align: -2px; accent-color: var(--accent); }
+
+  /* ---------- Подвал ---------- */
+  footer { border-top: 1px solid var(--line); padding: 30px 0 50px; font-size: 14px; color: var(--muted); }
+  footer .cols { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  footer a { color: var(--muted); }
+  footer a:hover { color: var(--accent); }
+
+  ::selection { background: var(--accent); color: #2b231b; }
+
+  @media (max-width: 520px) {
+    header { padding-top: 34px; }
+    nav a { margin: 0 8px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>Роман Кириллов</h1>
+    <div class="who">коуч — пишу о том, как менять свою жизнь</div>
+    <nav>
+      <a href="index.html" class="current">Блог</a>
+      <a href="obo-mne.html">Обо мне</a>
+      <a href="statyi.html">Профессиональные статьи</a>
+      <a href="otzyvy.html">Отзывы</a>
+      <a href="zapis.html">Запись</a>
+    </nav>
+  </div>
+</header>
+
+
+<section class="about">
+  <div class="wrap">
+    <h2>Обо мне</h2>
+    <p>Я практикующий коуч. Сам через многое прошёл: похудел на 40 кг, перестал пить и курить, переучился из кассира-баристы в IT (сейчас там же руководитель проекта), преодолевал страхи, неврозы и депрессию. Поэтому в том, что вижу у людей, разбираюсь не только по учебникам, а по своему опыту.</p>
+    <p>В блоге делюсь наблюдениями из практики и тем, что проверил на себе.<br><span class="more-link">Подробнее обо мне — <a href="obo-mne.html">здесь</a>.</span></p>
+  </div>
+</section>
+
+<section class="posts wrap" id="posts"></section>
+
+<div class="more" hidden>
+  <a href="#">Читать более старые записи →</a>
+</div>
+
+<section class="subscribe wrap">
+  <h2>Письма раз в две недели</h2>
+  <p>Новая статья и что-нибудь полезное — без спама, отписаться можно в любой момент.</p>
+  <form id="subform" hidden>
+    <input type="email" id="subemail" placeholder="Ваш e-mail" required maxlength="100">
+    <button type="submit">Подписаться</button>
+    <div class="consents">
+      <label><input type="checkbox" required>Согласен на <a href="politika-pd.html" target="_blank">обработку персональных данных</a></label>
+      <label><input type="checkbox" required>Согласен получать письма о новых записях в блоге</label>
+    </div>
+  </form>
+  <div id="subok" class="sub-ok" hidden>Спасибо! Вы подписаны.</div>
+  <div id="suberr" class="sub-err" hidden></div>
+</section>
+
+<footer>
+  <div class="wrap cols">
+    <div>© 2026 Роман Кириллов</div>
+    <div>
+      <a href="https://t.me/Romshtin">Telegram</a> · <a href="https://vk.ru/id1048836436">VK</a> · <a href="mailto:kirillov4@mail.ru">kirillov4@mail.ru</a> · <a href="politika-pd.html">Политика обработки данных</a>
+    </div>
+  </div>
+</footer>
+
+<script src="posts.js"></script>
+<script>
+  // Дата из "2026-09-12" -> "12 сентября 2026"
+  function fmtDate(s) {
+    const m = ['января','февраля','марта','апреля','мая','июня',
+               'июля','августа','сентября','октября','ноября','декабря'];
+    const [y, mo, d] = s.split('-');
+    return +d + ' ' + m[mo - 1] + ' ' + y;
+  }
+
+  // Свежие посты первыми; на главной показываем по 10, дальше — по кнопке «ещё»
+  const sorted = [...POSTS].sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id);
+  const box = document.getElementById('posts');
+  const more = document.querySelector('.more');
+  const PAGE_SIZE = 10;
+  let shown = 0;
+  let stats = null;
+
+  function plural(n, forms) {  // forms: ['просмотр', 'просмотра', 'просмотров']
+    return (n % 10 === 1 && n % 100 !== 11) ? forms[0]
+         : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? forms[1]
+         : forms[2];
+  }
+
+  function postHtml(p) {
+    return `
+    <article class="post">
+      <div class="meta" data-id="${p.id}">🕒 ${fmtDate(p.date)} · ${p.category}</div>
+      <h2><a href="post.html?id=${p.id}">${p.title}</a></h2>
+      <p>${p.excerpt}</p>
+    </article>`;
+  }
+
+  // Счётчики просмотров и комментариев (нужен запущенный server/, на file:// тихо не показываются)
+  function applyCounters() {
+    if (!stats) return;
+    document.querySelectorAll('#posts .meta').forEach(el => {
+      if (el.dataset.done) return;  // не задваивать при повторном вызове
+      el.dataset.done = '1';
+      const v = stats.views[el.dataset.id];
+      const c = stats.comments[el.dataset.id];
+      let add = '';
+      if (v) add += ' · 👁️ ' + v + ' ' + plural(v, ['просмотр', 'просмотра', 'просмотров']);
+      if (c) add += ' · 💬 ' + c + ' ' + plural(c, ['комментарий', 'комментария', 'комментариев']);
+      el.textContent += add;
+    });
+  }
+
+  function showMore() {
+    const next = sorted.slice(shown, shown + PAGE_SIZE);
+    box.insertAdjacentHTML('beforeend', next.map(postHtml).join(''));
+    shown += next.length;
+    more.hidden = shown >= sorted.length;  // кнопка видна, только если есть что показать
+    applyCounters();
+  }
+
+  showMore();
+  more.querySelector('a').addEventListener('click', e => {
+    e.preventDefault();
+    showMore();
+  });
+
+  fetch('/api/stats')
+    .then(r => {
+      // сервер отвечает — можно и подписываться (на file:// формы нет)
+      if (r.ok) document.getElementById('subform').hidden = false;
+      return r.ok ? r.json() : null;
+    })
+    .then(s => { stats = s; applyCounters(); })
+    .catch(() => {});
+
+  // ---------- Подписка на рассылку ----------
+  // Форма видна только когда отвечает server/ (на file:// остаётся скрытой)
+  const subform = document.getElementById('subform');
+  subform.addEventListener('submit', async ev => {
+    ev.preventDefault();
+    const err = document.getElementById('suberr');
+    err.hidden = true;
+    try {
+      const r = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: document.getElementById('subemail').value }),
+      });
+      if (r.ok) {
+        subform.hidden = true;
+        document.getElementById('subok').hidden = false;
+        return;
+      }
+      const d = await r.json().catch(() => null);
+      err.textContent = (d && d.detail) ? d.detail : 'Не получилось — попробуйте ещё раз';
+    } catch (e) {
+      err.textContent = 'Не получилось — попробуйте ещё раз';
+    }
+    err.hidden = false;
+  });
+</script>
+</body>
+</html>

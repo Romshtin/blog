@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Пост — Роман Кириллов</title>
+<!-- Запасной description (поисковик без JS) JS обновляет под конкретный пост -->
+<meta name="description" content="Блог коуча Романа Кириллова — записи о психологии, отношениях и работе с собой. Новые посты каждую неделю.">
+<meta property="og:site_name" content="Роман Кириллов">
+<meta property="og:image" content="https://roman-kirillov.ru/og-preview.png">
+<meta property="og:locale" content="ru_RU">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  :root {
+    --bg: #211b15;
+    --bg-soft: #2a231c;
+    --ink: #e8ded0;
+    --muted: #a89a88;
+    --accent: #d9a05b;
+    --accent-dim: #b98851;
+    --line: #3a3129;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Onest', 'Segoe UI', -apple-system, Roboto, Arial, sans-serif;
+    /* свеча стоит в центре страницы: свет сильнее всего в центре и равномерно
+       угасает во все стороны; края страницы остаются тёмными */
+    background:
+      radial-gradient(farthest-corner at 50% 50%,
+        rgba(217,160,91,.08) 0%,
+        rgba(217,160,91,.058) 30%,
+        rgba(217,160,91,.038) 55%,
+        rgba(217,160,91,.018) 75%,
+        rgba(217,160,91,0) 92%),
+      var(--bg);
+    color: var(--ink);
+    line-height: 1.85; font-size: 17px;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 0 22px; }
+
+  /* тёплое статичное свечение за свечой — просто цвет, без анимации;
+     ореол небольшой, чтобы шапка не выделялась на общем фоне */
+  header {
+    padding: 48px 0 30px; text-align: center; border-bottom: 1px solid var(--line);
+    background: radial-gradient(260px 170px at 50% 65px, rgba(217,160,91,.08), transparent 70%);
+  }
+  /* имя сайта в шапке — не h1: единственный h1 на странице — заголовок поста */
+  .brand { font-size: 28px; font-weight: normal; color: var(--ink); }
+  .brand a { color: var(--ink); text-decoration: none; }
+  .brand a:hover { color: var(--accent); }
+  header .who { color: var(--muted); font-size: 15px; margin-top: 6px; }
+  nav { margin-top: 20px; }
+  nav a {
+    text-decoration: none; color: var(--ink); font-size: 15px;
+    margin: 0 12px; padding-bottom: 3px;
+  }
+  nav a:hover { border-bottom: 1px solid var(--accent); color: var(--accent); }
+  nav a.current { color: var(--accent); border-bottom: 1px solid var(--accent); }
+
+  .post-title { padding: 44px 0 0; }
+  .post-title h1 { font-size: 24px; font-weight: 700; line-height: 1.4; }
+  .post-title .meta { font-size: 14px; color: var(--muted); margin-bottom: 14px; }
+  .post-img { display: block; width: 100%; border-radius: 12px; margin: 3px 0 3px; }
+
+  .post-body { padding: 12px 0 26px; line-height: 2.1; }  /* обычный кремовый; свободный интерлиньяж — глазу легче вести строку */
+  .post-body p { margin-bottom: 26px; font-size: 17px; }
+  .post-body p:last-child { margin-bottom: 0; }
+  .post-body b { font-weight: 700; color: #fff6e2; }  /* ярче обычного кремового — усиление без «сходства со ссылкой» */
+  .post-body mark { background: rgba(217,160,91,.28); color: var(--ink); padding: 0 5px; border-radius: 4px; }
+  .post-body span.line { display: block; }
+  .post-body span.c { text-align: center; }
+  .post-body span.r { text-align: right; }
+  .post-body hr { border: none; border-top: 1px solid var(--line); margin: 30px 0; }
+  .post-body hr.t2 { border-top-width: 2px; }
+  .post-body hr.t3 { border-top-width: 3px; border-color: var(--accent-dim); }
+  /* [блок]…[/блок] — рамка-плашка, как приветствие на главной:
+     растёт в стороны на ширину отступов колонки, текст внутри ровно с основным текстом */
+  .post-body .box { background: var(--bg-soft); border-radius: 12px; padding: 18px 22px; margin: 6px -22px; }
+  .post-body .box p:last-child { margin-bottom: 0; }
+
+  .back { padding: 0 0 60px; }
+  .back a { text-decoration: none; font-size: 15px; }
+
+  /* ---------- Оценка поста (после разделительной линии) ---------- */
+  .postrate {
+    border-top: 1px solid var(--line); padding: 22px 0 6px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .postrate .prlbl { font-size: 14px; color: var(--muted); }
+
+  /* ---------- Комментарии ---------- */
+  .comments { padding: 26px 0 26px; }
+  .comments h2 { font-size: 19px; font-weight: normal; margin-bottom: 6px; }
+  .comments .empty { font-size: 15px; color: var(--muted); }
+  .comment { padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .comment:last-child { border-bottom: none; }
+  .comment .who { font-size: 14px; color: var(--muted); margin-bottom: 4px; }
+  .comment .who b { color: var(--ink); font-weight: 600; }
+  .comment .text { white-space: pre-line; font-size: 16px; }
+  /* комментарий автора — в мягкой плашке, как [блок] в тексте поста */
+  .comment.author {
+    background: var(--bg-soft); border-radius: 12px; border-bottom: none;
+    padding: 14px 22px; margin: 6px -22px;
+  }
+  .comment.author + .comment { border-top: 1px solid var(--line); }
+  .comment .badge { color: var(--accent); font-weight: 600; }
+  /* аватар: слева от текста, у автора — подпись «Автор» под иконкой.
+     Размер (--ava) задаёт JS по глубине вложенности: корень — самый
+     крупный, каждый уровень ответа меньше. Позже вместо иконки здесь
+     будет аватар из VK (img в .ava). */
+  .comment { display: flex; gap: 12px; }
+  .comment .ava { flex: 0 0 var(--ava, 52px); text-align: center; }
+  .comment .ava .ph {
+    display: flex; width: var(--ava, 52px); height: var(--ava, 52px);
+    border-radius: 50%;
+    background: #2e261f; border: 1px solid var(--line);
+    align-items: center; justify-content: center;
+  }
+  .comment .ava .ph svg {
+    width: calc(var(--ava, 52px) * 0.58);
+    height: calc(var(--ava, 52px) * 0.58);
+    fill: #7d7161;
+  }
+  .comment.author .ava .ph { border-color: var(--accent-dim); }
+  /* аватар из VK — настоящая фотография вместо силуэта */
+  .comment .ava img {
+    display: block; width: var(--ava, 52px); height: var(--ava, 52px);
+    border-radius: 50%; object-fit: cover; margin: 0 auto;
+    border: 1px solid var(--line); background: #2e261f;
+  }
+  .comment.author .ava img { border-color: var(--accent-dim); }
+  .comment .ava .lbl {
+    display: block; font-size: calc(var(--ava, 52px) * 0.19); color: var(--accent);
+    margin-top: 2px; line-height: 1.2;
+  }
+  .comment .cmain { flex: 1; min-width: 0; }
+  .comment .del {
+    background: none; border: none; color: var(--muted); cursor: pointer;
+    font-size: 14px; padding: 0 4px; float: right; line-height: inherit;
+  }
+  .comment .del:hover { color: #d97b6c; }
+  /* «изменено» рядом с датой у отредактированного комментария */
+  .comment .who .edited { color: var(--muted); }
+  /* правка своего комментария: поле поверх текста + «Сохранить/Отмена» */
+  .comment .editbox { margin-top: 6px; }
+  .comment .editbox textarea {
+    font-family: inherit; font-size: 16px; padding: 8px 12px;
+    border: 1px solid var(--line); background: #2e261f; border-radius: 6px;
+    color: var(--ink); width: 100%; box-sizing: border-box;
+    resize: vertical; min-height: 70px; margin: 0 0 8px; display: block;
+  }
+  .comment .replies .comment .editbox textarea { font-size: 15px; }
+  .comment .editbox textarea:focus { outline: none; border-color: var(--accent-dim); }
+  .comment .editbox .esave {
+    font-family: inherit; font-size: 13px; padding: 6px 14px;
+    background: var(--accent); color: #2b231b; font-weight: bold;
+    border: none; border-radius: 6px; cursor: pointer;
+  }
+  .comment .editbox .esave:hover { background: #e6b276; }
+  .comment .editbox .esave:disabled { opacity: .6; cursor: default; }
+  .comment .editbox .ecancel {
+    background: none; border: none; color: var(--muted); cursor: pointer;
+    font-size: 13px; padding: 0 0 0 10px; text-decoration: underline;
+    font-family: inherit;
+  }
+  .comment .editbox .ecancel:hover { color: var(--accent); }
+  .comment .editbox .eerr { color: #d97b6c; font-size: 13px; padding: 0 0 0 10px; }
+  /* удалённый с ответами комментарий: на месте плейсхолдер «Комментарий удалён» */
+  .comment.deleted .text { color: var(--muted); font-style: italic; }
+  /* ветки-ответы: ответы на комментарий показываются под ним с отступом */
+  .comment .replies { margin: 8px 0 0 18px; }
+  .comment .replies .comment {
+    border-bottom: none; border-top: none; padding: 12px 0; font-size: 15px;
+  }
+  .comment .replies .comment .text { font-size: 15px; }
+  /* комментарий, к которому привели по ссылке #comment-N из письма об ответе:
+     мягкая медленная подсветка, чтобы цель было видно */
+  @keyframes target-fade {
+    0%, 55% { background: rgba(217,160,91,.13); }
+    100% { background: transparent; }
+  }
+  .comment.targeted { border-radius: 12px; animation: target-fade 3.5s ease-out; }
+  /* ответ-«Автор» внутри ветки — без своей плашки и отрицательных отступов,
+     только бейдж «Автор»; иначе внутри плашки родителя рисуется вторая */
+  .comment .replies .comment.author {
+    background: none; border-radius: 0; padding: 12px 0; margin: 0;
+  }
+  .comment .rpl {
+    color: var(--muted); font-size: 13px;
+  }
+  /* нижний ряд под текстом — как на Дзене: «Ответить» простым текстом,
+     лайк/дизлайк и «+» — мягкие пилюли без обводки */
+  .comment .act {
+    display: flex; align-items: center; gap: 2px;
+    margin: 8px 0 0; position: relative;
+  }
+  .comment .rplbtn {
+    background: none; border: none; color: var(--muted); cursor: pointer;
+    font-size: 13px; padding: 0 2px 0 0; line-height: 1.4; font-family: inherit;
+  }
+  .comment .rplbtn:hover { color: var(--accent); }
+  /* «Изменить» у своего комментария — в том же ряду, чуть правее «Ответить» */
+  .comment .rplbtn.editbtn { padding: 0 2px 0 10px; }
+  .comment .reactbtn {
+    background: #2e261f; border: none; cursor: pointer;
+    color: var(--muted); font-size: 14px; line-height: 1;
+    padding: 6px 11px; border-radius: 16px; font-family: inherit;
+  }
+  .comment .reactbtn:hover { color: var(--accent); }
+  /* палитра эмодзи над кнопкой «+» */
+  .comment .emojipop {
+    position: absolute; bottom: calc(100% + 8px); left: 0; z-index: 5;
+    background: var(--bg-soft); border: 1px solid var(--line); border-radius: 12px;
+    padding: 6px 8px; display: flex; gap: 2px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, .45);
+  }
+  .comment .emojipop[hidden] { display: none; }  /* flex перебивал hidden — точка-пятно */
+  .comment .emojipop button {
+    background: none; border: none; cursor: pointer;
+    font-size: 20px; padding: 3px 4px; line-height: 1;
+  }
+  .comment .emojipop button:hover { background: #3a3129; border-radius: 8px; }
+  /* поставленные реакции — маленькие плашки «эмодзи число» */
+  .comment .reacts { display: inline-flex; gap: 6px; }
+  .comment .react {
+    background: #2e261f; border: 1px solid var(--line); cursor: pointer;
+    border-radius: 10px; padding: 1px 8px; font-size: 14px;
+    color: var(--ink); font-family: inherit; line-height: 1.5;
+  }
+  .comment .react.my { border-color: var(--accent); }
+  /* лайк/дизлайк — пилюля «иконка + число», как на Дзене
+     (один и тот же вид у оценки поста и у комментариев) */
+  .votes {
+    display: inline-flex; gap: 6px;
+  }
+  .votes button {
+    background: #2e261f; border: 1px solid transparent; cursor: pointer;
+    display: flex; align-items: center; gap: 5px;
+    padding: 3px 9px; border-radius: 16px;
+    color: var(--muted); font-family: inherit; line-height: 1;
+  }
+  .votes .ico { font-size: 15px; line-height: 1; }
+  .votes button.my {
+    color: var(--ink); font-weight: 600; border-color: var(--accent);
+  }
+  .votes .cnt { font-size: 13px; }
+  .cform {
+    margin-top: 24px; background: var(--bg-soft); border-radius: 12px;
+    padding: 20px 22px; margin-left: -22px; margin-right: -22px;
+  }
+  .cform .row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .cform .row input { flex: 1 1 200px; }
+  /* «Войти через [значок VK]» — строка над полями, прижата к правому углу
+     (над полем «Почта»); скрыта, когда читатель уже вошёл или на file:// */
+  .cform .vklogin {
+    display: flex; align-items: center; justify-content: flex-end; gap: 5px;
+    font-size: 13.5px; color: var(--muted); text-decoration: none;
+    margin-bottom: 6px;
+  }
+  .cform .vklogin:hover { color: var(--accent); }
+  /* значок в фирменном синем VK; буквы «прорезаются» фоном страницы */
+  .cform .vklogin svg { width: 17px; height: 17px; fill: #0077ff; }
+  .cform .vklogin:hover svg { fill: #3d8dff; }
+  .cform .vklogin[hidden] { display: none; }
+  .cform input, .cform textarea {
+    font-family: inherit; font-size: 15px; padding: 10px 14px;
+    border: 1px solid var(--line); background: #2e261f; border-radius: 6px;
+    color: var(--ink); width: 100%; margin-bottom: 10px;
+  }
+  .cform textarea { resize: vertical; min-height: 96px; }
+  .cform input:focus, .cform textarea:focus { outline: none; border-color: var(--accent-dim); }
+  .cform ::placeholder { color: #7d7161; }
+  .cform button {
+    font-family: inherit; font-size: 15px; padding: 10px 22px;
+    background: var(--accent); color: #2b231b; font-weight: bold;
+    border: none; border-radius: 6px; cursor: pointer;
+  }
+  .cform button:hover { background: #e6b276; }
+  .cform button:disabled { opacity: .6; cursor: default; }
+  .cform .err { color: #d97b6c; font-size: 14px; margin-top: 8px; min-height: 18px; }
+  .cform .note { color: var(--muted); font-size: 13px; margin: 6px 0 0; }
+  /* строка «отвечаете Имя» над формой */
+  .cform .replying {
+    background: #2e261f; border-radius: 8px; padding: 8px 12px;
+    font-size: 14px; color: var(--muted); margin-bottom: 10px;
+  }
+  .cform .replying b { color: var(--accent); font-weight: 600; }
+  .cform .replying button {
+    background: none; border: none; color: var(--muted); cursor: pointer;
+    font-size: 13px; padding: 0 0 0 10px; text-decoration: underline;
+  }
+  .cform .replying button:hover { color: #d97b6c; }
+  /* строка «Вы вошли как …» у формы — читатель вошёл через VK */
+  .cform .vkme {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 14px; color: var(--muted); margin-bottom: 10px;
+  }
+  /* flex перебивает hidden — прячем явно (как у emojipop) */
+  .cform .vkme[hidden] { display: none; }
+  .cform .vkme img {
+    width: 28px; height: 28px; border-radius: 50%; object-fit: cover;
+    border: 1px solid var(--line);
+  }
+  .cform .vkme b { color: var(--ink); font-weight: 600; }
+  .cform .vkme button {
+    background: none; border: none; color: var(--muted); cursor: pointer;
+    font-size: 13px; padding: 0; text-decoration: underline; font-family: inherit;
+  }
+  .cform .vkme button:hover { color: #d97b6c; }
+  /* галочка «уведомлять меня об ответах» */
+  .cform .nrow {
+    display: block; font-size: 14px; color: var(--muted);
+    margin: 2px 0 12px; cursor: pointer; user-select: none;
+  }
+  .cform .nrow input { width: auto; margin: 0 6px 0 0; vertical-align: -2px; accent-color: var(--accent); }
+  /* display в правиле выше перебивает атрибут hidden — без этого галочка
+     не прячется, даже когда VK не дал почту (ловушка та же, что с .vkme) */
+  .cform .nrow[hidden] { display: none; }
+
+  footer { border-top: 1px solid var(--line); padding: 30px 0 50px; font-size: 14px; color: var(--muted); }
+  footer .cols { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  footer a { color: var(--muted); }
+  footer a:hover { color: var(--accent); }
+
+  ::selection { background: var(--accent); color: #2b231b; }
+
+  @media (max-width: 520px) {
+    header { padding-top: 34px; }
+    nav a { margin: 0 8px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="brand"><a href="index.html">Роман Кириллов</a></p>
+    <div class="who">коуч — пишу о том, как менять свою жизнь</div>
+    <nav>
+      <a href="index.html" class="current">Блог</a>
+      <a href="obo-mne.html">Обо мне</a>
+      <a href="statyi.html">Профессиональные статьи</a>
+      <a href="otzyvy.html">Отзывы</a>
+      <a href="zapis.html">Запись</a>
+    </nav>
+  </div>
+</header>
+
+<article class="wrap">
+  <div class="post-title">
+    <div class="meta" id="meta"></div>
+    <h1 id="title"></h1>
+    <img id="img" class="post-img hidden" alt="">
+  </div>
+  <div class="post-body" id="body"></div>
+
+  <section class="postrate" id="postrate" hidden>
+    <span class="prlbl">Понравилась запись?</span>
+    <span class="votes">
+      <button type="button" class="vup" title="Нравится"></button>
+      <button type="button" class="vdn" title="Не нравится"></button>
+    </span>
+  </section>
+
+  <section class="comments" id="comments" hidden>
+    <h2>Комментарии</h2>
+    <p class="empty" id="comments-empty" hidden>Пока никто не написал — первый комментарий здесь.</p>
+    <div id="comments-list"></div>
+    <form class="cform" id="cform">
+      <div class="replying" id="replying" hidden>
+        Отвечаете <b id="replying-name"></b>
+        <button type="button" id="replying-cancel">отменить</button>
+      </div>
+      <div class="vkme" id="vkme" hidden>
+        <img id="vkme-ava" alt="">
+        <span>Вы вошли как <b id="vkme-name"></b></span>
+        <button type="button" id="vklogout">выйти</button>
+      </div>
+      <a class="vklogin" id="vklogin-row" href="#" hidden>Войти через
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.07 2H8.93C3.33 2 2 3.33 2 8.93v6.14C2 20.67 3.33 22 8.93 22h6.14c5.6 0 6.93-1.33 6.93-6.93V8.93C22 3.33 20.67 2 15.07 2m3.08 14.27h-1.46c-.55 0-.72-.44-1.69-1.42-.85-.82-1.22-.93-1.42-.93-.29 0-.37.08-.37.48v1.3c0 .35-.11.56-1.02.56-1.5 0-3.17-.92-4.34-2.62-1.76-2.44-2.24-4.28-2.24-4.63 0-.19.08-.37.48-.37h1.46c.36 0 .5.17.63.56.7 2.01 1.88 3.77 2.37 3.77.18 0 .26-.08.26-.55V10.6c-.06-1-.58-1.08-.58-1.43 0-.17.14-.34.34-.34h2.29c.3 0 .41.16.41.52v2.49c0 .27.12.36.2.36.18 0 .32-.09.65-.42.99-1.11 1.7-2.83 1.7-2.83.09-.19.25-.37.6-.37h1.46c.44 0 .53.22.53.52-.04.55-1.03 2.05-1.71 2.83-.27.31-.38.47-.38.75 0 .17.06.34.19.5.94 1.06 1.61 1.96 1.61 2.87.04.44-.32.73-.9.73"/></svg></a>
+      <div class="row" id="crow">
+        <input id="cname" type="text" placeholder="Имя *" required maxlength="60">
+        <input id="cmail" type="email" placeholder="Почта *" required maxlength="100">
+      </div>
+      <textarea id="ctext" placeholder="Ваш комментарий… (Enter — отправить, Ctrl+Enter — новая строка)" required maxlength="2000"></textarea>
+      <label class="nrow" id="cconsent-row"><input type="checkbox" id="cconsent" required>Согласен на <a href="politika-pd.html" target="_blank">обработку персональных данных</a> и на публикацию комментария на сайте</label>
+      <label class="nrow" id="cnotify-row"><input type="checkbox" id="cnotify">Уведомлять меня об ответах на почту</label>
+      <button type="submit" id="csend">Отправить</button>
+      <div class="err" id="cerr"></div>
+      <p class="note">Почта не публикуется — нужна только чтобы можно было ответить вам (в том числе письмом, если отметите галочку).</p>
+    </form>
+  </section>
+</article>
+
+<div class="wrap back">
+  <a href="index.html">← Назад ко всем записям</a>
+</div>
+
+<footer>
+  <div class="wrap cols">
+    <div>© 2026 Роман Кириллов</div>
+    <div>
+      <a href="https://t.me/Romshtin">Telegram</a> · <a href="https://vk.ru/id1048836436">VK</a> · <a href="mailto:kirillov4@mail.ru">kirillov4@mail.ru</a> · <a href="politika-pd.html">Политика обработки данных</a>
+    </div>
+  </div>
+</footer>
+
+<script src="posts.js"></script>
+<script>
+  function fmtDate(s) {
+    const m = ['января','февраля','марта','апреля','мая','июня',
+               'июля','августа','сентября','октября','ноября','декабря'];
+    const [y, mo, d] = s.split('-');
+    return +d + ' ' + m[mo - 1] + ' ' + y;
+  }
+
+  const id = Number(new URLSearchParams(location.search).get('id'));
+  const p = POSTS.find(p => p.id === id);
+
+  if (p) {
+    document.title = p.title + ' — Роман Кириллов';
+    document.getElementById('meta').textContent = '🕒 ' + fmtDate(p.date) + ' · ' + p.category;
+    document.getElementById('title').textContent = p.title;
+    // SEO-мета-теги под конкретный пост: описание, canonical и Open Graph
+    // создаются скриптом после отрисовки (поисковики исполняют JS)
+    const escAttr = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+    const postUrl = 'https://roman-kirillov.ru/post.html?id=' + p.id;
+    // Статический description не дублируется вторым тегом — обновляем его
+    // описанием поста (у поисковиков без JS остаётся запасной текст).
+    // setAttribute принимает «сырое» значение: esc тут не нужен (в отличие
+    // от insertAdjacentHTML ниже).
+    const desc = document.head.querySelector('meta[name="description"]');
+    if (desc) {
+      desc.setAttribute('content', p.excerpt);
+    } else {
+      document.head.insertAdjacentHTML('beforeend',
+        '<meta name="description" content="' + escAttr(p.excerpt) + '">');
+    }
+    document.head.insertAdjacentHTML('beforeend', [
+      '<link rel="canonical" href="' + postUrl + '">',
+      '<meta property="og:type" content="article">',
+      '<meta property="og:title" content="' + escAttr(p.title) + '">',
+      '<meta property="og:description" content="' + escAttr(p.excerpt) + '">',
+      '<meta property="og:url" content="' + postUrl + '">',
+      '<script type="application/ld+json">' + JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        'headline': p.title,
+        'datePublished': p.date,
+        'author': { '@type': 'Person', 'name': 'Роман Кириллов' },
+        'url': postUrl,
+        'image': 'https://roman-kirillov.ru/og-preview.png'
+      }) + '<\/script>'
+    ].join(''));
+    // Картинка после заголовка, если она есть у поста
+    if (p.image) {
+      const img = document.getElementById('img');
+      img.src = p.image;
+      img.alt = p.title;
+      img.classList.remove('hidden');
+    }
+    // Пустая строка в тексте = новый абзац.
+    // Разметка: **жирный**, *курсив*, ==маркер==,
+    // метки [центр] / [справа] в начале строки — выравнивание этой строки
+    function renderInline(line) {
+      const esc = line
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return esc
+        .replace(/==([^=]+)==/g, '<mark>$1</mark>')
+        // Метка [картинка:ключ] -> картинка из поста (post.images)
+        .replace(/\[картинка:(\w+)\]/g, (m, key) =>
+          (p.images && p.images[key])
+            ? '<img class="post-img" src="' + p.images[key] + '" alt="Иллюстрация к посту">'
+            : m)
+        .replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>')
+        .replace(/\*([^*]+)\*/g, '<i>$1</i>');
+    }
+
+    // Пустая строка = новый абзац; строка из дефисов (-- … ----) = линия,
+    // причём где угодно — даже внутри абзаца. Строка с меткой [центр]/[справа]
+    // выравнивается сама, оставаясь в своём абзаце (без лишних пустых строк)
+    function renderPar(par) {
+      const out = [];
+      let buf = [];
+      const flush = () => {
+        if (!buf.length) return;
+        // <br> ставится только между обычными строками;
+        // выровненная строка — блок, перенос после неё не нужен
+        let html = '', prevBlk = true;
+        buf.forEach(it => {
+          if (!prevBlk && !it.blk) html += '<br>';
+          html += it.h;
+          prevBlk = it.blk;
+        });
+        out.push('<p>' + html + '</p>');
+        buf = [];
+      };
+      par.split('\n').forEach(rawLine => {
+        let line = rawLine, cls = '';
+        if (line.startsWith('[центр]'))       { cls = 'c'; line = line.slice(7); }
+        else if (line.startsWith('[справа]')) { cls = 'r'; line = line.slice(8); }
+        if (/^-{2,4}$/.test(line.trim())) {
+          flush();
+          out.push('<hr class="t' + (line.trim().length - 1) + '">');
+        } else {
+          const inner = renderInline(line);
+          buf.push({ h: cls ? '<span class="line ' + cls + '">' + inner + '</span>' : inner, blk: !!cls });
+        }
+      });
+      flush();
+      return out.join('');
+    }
+
+    // [блок] и [/блок] (каждый на своей строке) обрамляют текст рамкой-плашкой
+    function renderContent(content) {
+      const marked = content
+        .replace(/^[ \t]*\[блок\][ \t]*$/gm, '\x01')
+        .replace(/^[ \t]*\[\/блок\][ \t]*$/gm, '\x02');
+      let html = '', open = false;
+      marked.split(/([\x01\x02])/).forEach(seg => {
+        if (seg === '\x01') { if (!open) { html += '<div class="box">'; open = true; } }
+        else if (seg === '\x02') { if (open) { html += '</div>'; open = false; } }
+        else if (seg) html += seg.split(/\n\s*\n/).map(par => par.trim()).filter(par => par)
+          .map(par => renderPar(par)).join('');
+      });
+      if (open) html += '</div>';
+      return html;
+    }
+
+    document.getElementById('body').innerHTML = renderContent(p.content);
+
+    // Счётчик просмотров (нужен запущенный server/, на file:// тихо не показывается)
+    fetch('/api/views/' + p.id, { method: 'POST' })
+      .then(r => r.ok ? r.json() : null)
+      .then(info => {
+        if (!info) return;
+        const n = info.views;
+        const word = (n % 10 === 1 && n % 100 !== 11) ? 'просмотр'
+                   : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 'просмотра'
+                   : 'просмотров';
+        document.getElementById('meta').textContent +=
+          ' · 👁️ ' + n + ' ' + word;
+      })
+      .catch(() => {});
+
+    // Оценка поста (нужен запущенный server/, на file:// блок не показывается):
+    // та же пилюля лайк/дизлайк, что у комментариев; та же кнопка снимает
+    // голос, противоположная переключает
+    fetch('/api/postvote/' + p.id)
+      .then(r => r.ok ? r.json() : null)
+      .then(d => {
+        if (!d) return;
+        const votes = { likes: d.likes || 0, dislikes: d.dislikes || 0, my: d.my || 0 };
+        const wrap = document.getElementById('postrate');
+        const upBtn = wrap.querySelector('.vup');
+        const dnBtn = wrap.querySelector('.vdn');
+        upBtn.innerHTML = IC_LIKE + '<span class="cnt">0</span>';
+        dnBtn.innerHTML = IC_DISLIKE + '<span class="cnt">0</span>';
+        function paint() {
+          upBtn.querySelector('.cnt').textContent = String(votes.likes);
+          dnBtn.querySelector('.cnt').textContent = String(votes.dislikes);
+          upBtn.classList.toggle('my', votes.my === 1);
+          dnBtn.classList.toggle('my', votes.my === -1);
+        }
+        function sendVote(v) {
+          fetch('/api/postvote/' + p.id, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ vote: v }),
+          })
+            .then(r => r.ok ? r.json() : null)
+            .then(d2 => {
+              if (d2) { votes.likes = d2.likes; votes.dislikes = d2.dislikes; votes.my = d2.my; paint(); }
+            })
+            .catch(() => {});
+        }
+        upBtn.addEventListener('click', () => sendVote(1));
+        dnBtn.addEventListener('click', () => sendVote(-1));
+        wrap.hidden = false;
+        paint();
+      })
+      .catch(() => {});
+
+    // Комментарии (нужен запущенный server/, на file:// секция не показывается)
+    const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    // Иконки лайк/дизлайк — эмодзи, как в Telegram
+    const IC_LIKE = '<span class="ico">👍</span>';
+    const IC_DISLIKE = '<span class="ico">👎</span>';
+    // Обезличенный силуэт для аватара (голова + плечи, без рода)
+    const IC_AVATAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12.2c2.8 0 5-2.2 5-5s-2.2-5-5-5-5 2.2-5 5 2.2 5 5 5zm0 2.5c-3.3 0-10 1.7-10 5v2h20v-2c0-3.3-6.7-5-10-5z"/></svg>';
+    // Палитра эмодзи-реакций на кнопке «+»
+    const REACT_EMOJIS = ['❤️', '😊', '😢', '🙏', '🔥', '🎉'];
+    // Клик мимо палитры закрывает все открытые палитры
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.emojipop').forEach(p => { p.hidden = true; });
+    });
+    const box = document.getElementById('comments');
+
+    // Режим владельца: ключ приходит в ссылке (?key=...), дальше живёт в
+    // localStorage — предзаполнение полей и кнопки удаления у комментариев
+    let ownerKey = new URLSearchParams(location.search).get('key');
+    if (ownerKey) {
+      try { localStorage.setItem('rk_blog_owner_key', ownerKey); } catch (e) {}
+      try { history.replaceState(null, '', location.pathname + '?id=' + p.id); } catch (e) {}
+    }
+    if (!ownerKey) {
+      try { ownerKey = localStorage.getItem('rk_blog_owner_key'); } catch (e) {}
+    }
+    const isOwner = !!ownerKey;
+    if (isOwner) {
+      document.getElementById('cname').value = 'Роман';
+      document.getElementById('cmail').value = 'kirillov4@mail.ru';
+    }
+
+    // Вход через VK: вошедшему имя и почта не нужны (сервер берёт их из
+    // профиля), аватарка настоящая. Владельцу предзаполнение не меняем.
+    let vkUser = null;
+    fetch('/api/vk/me')
+      .then(r => r.ok ? r.json() : null)
+      .then(me => {
+        // владелец тоже может войти через VK — тогда пишет под профилем VK,
+        // сервер знает его VK ID и помечает такие комментарии «Автор»
+        if (me) {
+          vkUser = me;
+          // без этого скрытые пустые «Имя»/«Почта» с required блокируют
+          // отправку формы: браузер не может показать ошибку на невидимом поле
+          document.getElementById('cname').required = false;
+          document.getElementById('cmail').required = false;
+          document.getElementById('vkme').hidden = false;
+          document.getElementById('vkme-name').textContent = me.name;
+          if (me.photo) document.getElementById('vkme-ava').src = me.photo;
+          document.getElementById('crow').style.display = 'none';
+          if (!me.email) {  // VK не дал почту — письмом уведомлять некуда
+            document.getElementById('cnotify-row').hidden = true;
+          }
+        } else {
+          const vkl = document.getElementById('vklogin-row');
+          vkl.hidden = false;
+          vkl.href = '/api/vk/login?back=' + encodeURIComponent('/post.html?id=' + p.id);
+          // запомним, где читатель стоял, чтобы после возврата с VK
+          // вернуть его на то же место (иначе — верх страницы)
+          vkl.addEventListener('click', () => {
+            try { sessionStorage.setItem('rk_vk_scroll', String(window.scrollY)); } catch (e) {}
+          });
+        }
+      })
+      .catch(() => {});
+    document.getElementById('vklogout').addEventListener('click', () => {
+      // «выйти» перезагружает страницу — запомним позицию и вернём её
+      // после перезагрузки (тот же механизм, что у входа через VK)
+      try { sessionStorage.setItem('rk_vk_scroll', String(window.scrollY)); } catch (e) {}
+      fetch('/api/vk/logout', { method: 'POST' }).finally(() => location.reload());
+    });
+
+    function fmtDateTime(iso) {
+      const [d, t] = iso.split('T');
+      return fmtDate(d) + (t ? ', ' + t.slice(0, 5) : '');
+    }
+    function refreshCount() {
+      const n = document.querySelectorAll('.comment').length;
+      document.querySelector('#comments h2').textContent =
+        'Комментарии' + (n ? ' (' + n + ')' : '');
+      document.getElementById('comments-empty').hidden = n > 0;
+    }
+    // Аватар уменьшается с глубиной: корень 52px, каждый уровень −8px
+    function setAvaDepth(el) {
+      let depth = 0, anc = el.parentElement;
+      while (anc) {
+        if (anc.classList && anc.classList.contains('comment')) depth++;
+        anc = anc.parentElement;
+      }
+      el.style.setProperty('--ava', Math.max(30, 52 - depth * 8) + 'px');
+    }
+    function addComment(c, container) {
+      const el = document.createElement('div');
+      el.id = 'comment-' + c.id;
+      el.className = 'comment' + (c.is_author ? ' author' : '');
+      if (c.deleted) {
+        // удалён, но под ним остались ответы — плейсхолдер вместо текста,
+        // ветка сохраняется
+        el.classList.add('deleted');
+        el.innerHTML =
+          '<div class="ava"><span class="ph">' + IC_AVATAR + '</span></div>' +
+          '<div class="cmain">' +
+          '<div class="text">Комментарий удалён</div>' +
+          '<div class="replies"></div></div>';
+        container.appendChild(el);
+        setAvaDepth(el);
+        document.getElementById('comments-empty').hidden = true;
+        return el;
+      }
+      el.innerHTML =
+        '<div class="ava">' +
+        (c.photo ? '<img src="' + esc(c.photo) + '" alt="">'
+                 : '<span class="ph">' + IC_AVATAR + '</span>') +
+        (c.is_author ? '<span class="lbl">Автор</span>' : '') + '</div>' +
+        '<div class="cmain">' +
+        '<div class="who"><span><b>' + esc(c.name) + '</b> · ' +
+        fmtDateTime(c.created_at) +
+        (c.edited_at ? ' · <span class="edited">изменено</span>' : '') +
+        '</span>' +
+        ((c.mine || isOwner) ? '<button class="del" title="Удалить комментарий">✕</button>' : '') +
+        '</div><div class="text"></div>' +
+        '<div class="act">' +
+        '<button class="rplbtn" title="Ответить на этот комментарий">Ответить</button>' +
+        (c.mine ? '<button class="rplbtn editbtn" title="Изменить свой комментарий">Изменить</button>' : '') +
+        '<span class="reacts"></span>' +
+        '<span class="votes">' +
+        '<button class="vup" title="Нравится" aria-label="Нравится">' + IC_LIKE + '<span class="cnt">0</span></button>' +
+        '<button class="vdn" title="Не нравится" aria-label="Не нравится">' + IC_DISLIKE + '<span class="cnt">0</span></button>' +
+        '</span>' +
+        '<button class="reactbtn" title="Выбрать эмодзи">+</button>' +
+        '<div class="emojipop" hidden></div>' +
+        '</div><div class="replies"></div></div>';
+      el.querySelector('.text').textContent = c.text;
+      el.querySelector('.rplbtn').addEventListener('click', () =>
+        setReplyTo({ id: c.id, name: c.name }));
+      // Лайк/дизлайк: та же кнопка снимает голос, противоположная переключает
+      const votes = { likes: c.likes || 0, dislikes: c.dislikes || 0, my: c.my || 0 };
+      const upBtn = el.querySelector('.vup');
+      const dnBtn = el.querySelector('.vdn');
+      function paintVotes() {
+        el.querySelector('.vup .cnt').textContent = String(votes.likes);
+        el.querySelector('.vdn .cnt').textContent = String(votes.dislikes);
+        upBtn.classList.toggle('my', votes.my === 1);
+        dnBtn.classList.toggle('my', votes.my === -1);
+      }
+      function sendVote(v) {
+        fetch('/api/comments/' + c.id + '/vote', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ vote: v }),
+        })
+          .then(r => r.ok ? r.json() : null)
+          .then(d => {
+            if (d) { votes.likes = d.likes; votes.dislikes = d.dislikes; votes.my = d.my; paintVotes(); }
+          })
+          .catch(() => {});
+      }
+      upBtn.addEventListener('click', () => sendVote(1));
+      dnBtn.addEventListener('click', () => sendVote(-1));
+      paintVotes();
+      // Эмодзи-реакции: «+» открывает палитру, повторный выбор снимает,
+      // другой эмодзи заменяет. Поставленные показываются плашками.
+      const reactions = Object.assign({}, c.reactions || {});
+      let myReaction = c.my_reaction || null;
+      const reactsEl = el.querySelector('.reacts');
+      const pop = el.querySelector('.emojipop');
+      const reactBtn = el.querySelector('.reactbtn');
+      function paintReactions() {
+        reactsEl.innerHTML = '';
+        REACT_EMOJIS.forEach(em => {
+          const n = reactions[em] || 0;
+          if (!n) return;
+          const chip = document.createElement('button');
+          chip.type = 'button';
+          chip.className = 'react' + (myReaction === em ? ' my' : '');
+          chip.title = 'Убрать реакцию';
+          chip.textContent = em + (n > 1 ? ' ' + n : '');
+          chip.addEventListener('click', () => sendReaction(em));
+          reactsEl.appendChild(chip);
+        });
+      }
+      function sendReaction(em) {
+        fetch('/api/comments/' + c.id + '/react', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ emoji: em }),
+        })
+          .then(r => r.ok ? r.json() : null)
+          .then(d => {
+            if (d) {
+              for (const k in reactions) delete reactions[k];
+              Object.assign(reactions, d.reactions || {});
+              myReaction = d.my || null;
+              paintReactions();
+            }
+          })
+          .catch(() => {});
+        pop.hidden = true;
+      }
+      reactBtn.addEventListener('click', ev => {
+        ev.stopPropagation();          // не закрывать палитру сразу
+        const willOpen = pop.hidden;
+        document.querySelectorAll('.emojipop').forEach(p => { p.hidden = true; });
+        if (willOpen) {
+          pop.innerHTML = '';
+          REACT_EMOJIS.forEach(em => {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.textContent = em;
+            b.title = 'Поставить ' + em;
+            b.addEventListener('click', () => sendReaction(em));
+            pop.appendChild(b);
+          });
+          pop.hidden = false;
+        }
+      });
+      paintReactions();
+      // Удаление: свой — без ключа (сервер опознаёт по куке-паспорту или VK),
+      // владелец — любой, с админ-ключом. Если под комментарием остались
+      // ответы, сервер оставляет плейсхолдер «Комментарий удалён».
+      if (c.mine || isOwner) {
+        el.querySelector('.del').addEventListener('click', () => {
+          if (!confirm('Удалить этот комментарий?')) return;
+          const url = '/api/comments/' + c.id +
+            (isOwner ? '?key=' + encodeURIComponent(ownerKey) : '');
+          fetch(url, { method: 'DELETE' })
+            .then(async r => {
+              const d = await r.json().catch(() => null);
+              if (r.ok && d) {
+                if (d.removed) { el.remove(); refreshCount(); }
+                else markDeleted(el);
+              } else {
+                document.getElementById('cerr').textContent =
+                  (d && d.detail) || 'Не удалось удалить.';
+              }
+            })
+            .catch(() => {
+              document.getElementById('cerr').textContent = 'Не удалось удалить комментарий.';
+            });
+        });
+      }
+      if (c.mine) {
+        el.querySelector('.editbtn').addEventListener('click', () =>
+          startEdit(el, c));
+      }
+      container.appendChild(el);
+      setAvaDepth(el);
+      document.getElementById('comments-empty').hidden = true;
+      return el;
+    }
+
+    // Комментарий удалён, но под ним остались ответы: вместо текста —
+    // плейсхолдер, ветка сохраняется (тот же вид, что при загрузке страницы)
+    function markDeleted(el) {
+      el.classList.remove('author');
+      el.classList.add('deleted');
+      el.querySelector('.ava').innerHTML = '<span class="ph">' + IC_AVATAR + '</span>';
+      const cmain = el.querySelector('.cmain');
+      const replies = el.querySelector('.replies');
+      while (cmain.firstChild) cmain.removeChild(cmain.firstChild);
+      const note = document.createElement('div');
+      note.className = 'text';
+      note.textContent = 'Комментарий удалён';
+      cmain.appendChild(note);
+      if (replies) cmain.appendChild(replies);
+    }
+
+    // Правка своего комментария: поле поверх текста. Enter — сохранить,
+    // Ctrl/Shift+Enter — новая строка, Esc — отмена.
+    function startEdit(el, c) {
+      const textEl = el.querySelector('.text');
+      if (el.querySelector('.editbox')) return;
+      const box = document.createElement('div');
+      box.className = 'editbox';
+      const ta = document.createElement('textarea');
+      ta.maxLength = 2000;
+      ta.value = c.text;
+      const save = document.createElement('button');
+      save.type = 'button';
+      save.className = 'esave';
+      save.textContent = 'Сохранить';
+      const cancel = document.createElement('button');
+      cancel.type = 'button';
+      cancel.className = 'ecancel';
+      cancel.textContent = 'Отмена';
+      const err = document.createElement('span');
+      err.className = 'eerr';
+      box.append(ta, save, cancel, err);
+      textEl.hidden = true;
+      textEl.after(box);
+      ta.focus();
+      ta.addEventListener('keydown', ev => {
+        if (ev.key === 'Escape') {
+          ev.preventDefault();
+          cancel.click();
+        } else if (ev.key === 'Enter') {
+          ev.preventDefault();
+          if (ev.ctrlKey || ev.shiftKey) {
+            ta.setRangeText('\n', ta.selectionStart, ta.selectionEnd, 'end');
+          } else {
+            save.click();
+          }
+        }
+      });
+      cancel.addEventListener('click', () => { box.remove(); textEl.hidden = false; });
+      save.addEventListener('click', () => {
+        const t = ta.value.trim();
+        if (!t) { err.textContent = 'Текст не может быть пустым'; return; }
+        save.disabled = true;
+        fetch('/api/comments/' + c.id, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: t }),
+        })
+          .then(async r => {
+            const d = await r.json().catch(() => null);
+            if (r.ok && d) {
+              c.text = d.text;
+              c.edited_at = d.edited_at;
+              textEl.textContent = d.text;
+              if (!el.querySelector('.who .edited')) {
+                el.querySelector('.who > span').insertAdjacentHTML(
+                  'beforeend', ' · <span class="edited">изменено</span>');
+              }
+              box.remove();
+              textEl.hidden = false;
+            } else {
+              err.textContent = (d && d.detail) || 'Не удалось сохранить.';
+              save.disabled = false;
+            }
+          })
+          .catch(() => {
+            err.textContent = 'Не удалось сохранить.';
+            save.disabled = false;
+          });
+      });
+    }
+
+    // Ответ на конкретный комментарий: плашка над формой + фокус в текст
+    let replyTo = null;
+    const replyingBox = document.getElementById('replying');
+    const listEl = document.getElementById('comments-list');
+    function setReplyTo(c) {
+      replyTo = c;
+      replyingBox.hidden = !c;
+      if (c) {
+        document.getElementById('replying-name').textContent = c.name;
+        document.getElementById('cform').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        document.getElementById('ctext').focus();
+      }
+    }
+    document.getElementById('replying-cancel').addEventListener('click', () => setReplyTo(null));
+
+    // Как в мессенджерах: Enter отправляет комментарий, Ctrl+Enter
+    // (и Shift+Enter) — перенос строки
+    const ctext = document.getElementById('ctext');
+    ctext.addEventListener('keydown', ev => {
+      if (ev.key !== 'Enter') return;
+      ev.preventDefault();
+      if (ev.ctrlKey || ev.shiftKey) {
+        document.execCommand('insertText', false, '\n');
+      } else {
+        document.getElementById('csend').click();
+      }
+    });
+
+    // Возврат с VK-входа: вернуть читателя на место, откуда он уходил.
+    // Якорь #comment-N из письма важнее — тогда позицию не восстанавливаем.
+    const savedY = location.hash.startsWith('#comment-') ? null : (() => {
+      try {
+        const v = sessionStorage.getItem('rk_vk_scroll');
+        if (v !== null) sessionStorage.removeItem('rk_vk_scroll');
+        return v === null ? null : (parseInt(v, 10) || 0);
+      } catch (e) { return null; }
+    })();
+    if (savedY !== null) window.scrollTo(0, savedY);
+
+    fetch('/api/comments/' + p.id)
+      .then(r => r.ok ? r.json() : null)
+      .then(list => {
+        if (!list) return;
+        box.hidden = false;
+        // Возврат с VK с ошибкой входа — сообщим в форме комментариев
+        if (location.hash === '#vk-err') {
+          document.getElementById('cerr').textContent =
+            'Не удалось войти через VK — попробуйте ещё раз или напишите комментарий без входа.';
+        }
+        // Корневые комментарии по порядку; каждый ответ — под своим
+        // родителем (вложенность любой глубины, аватар уменьшается с уровнем).
+        // (Родителя ищем по id, не в DOM: на момент группировки элементов ещё нет.)
+        const byId = {};
+        list.comments.forEach(c => { byId[c.id] = c; });
+        const byParent = {};
+        const roots = [];
+        list.comments.forEach(c => {
+          if (c.reply_to && byId[c.reply_to]) (byParent[c.reply_to] = byParent[c.reply_to] || []).push(c);
+          else roots.push(c);
+        });
+        function renderThread(c, container) {
+          const el = addComment(c, container);
+          (byParent[c.id] || []).forEach(ch => renderThread(ch, el.querySelector('.replies')));
+        }
+        roots.forEach(c => renderThread(c, listEl));
+        refreshCount();
+        // Ссылка «Прочитать ответ» из письма ведёт на #comment-N, но
+        // комментарии появляются позже загрузки страницы — браузерный
+        // переход по якорю их не застаёт, поэтому прокручиваем сами
+        const m = location.hash.match(/^#comment-(\d+)$/);
+        if (m) {
+          const t = document.getElementById('comment-' + m[1]);
+          if (t) {
+            t.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            t.classList.add('targeted');
+          }
+        } else if (savedY !== null) {
+          // комментарии дорисовались и сдвинули страницу — поправим позицию
+          window.scrollTo(0, savedY);
+        }
+      })
+      .catch(() => {});
+    document.getElementById('cform').addEventListener('submit', ev => {
+      ev.preventDefault();
+      const err = document.getElementById('cerr');
+      const btn = document.getElementById('csend');
+      err.textContent = '';
+      btn.disabled = true;
+      fetch('/api/comments/' + p.id, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: vkUser ? vkUser.name : document.getElementById('cname').value,
+          email: vkUser ? (vkUser.email || '') : document.getElementById('cmail').value,
+          text: document.getElementById('ctext').value,
+          reply_to: replyTo ? replyTo.id : null,
+          notify: document.getElementById('cnotify').checked,
+        }),
+      }).then(async r => {
+        btn.disabled = false;
+        if (r.ok) {
+          const c = await r.json();
+          let container = listEl;
+          if (c.reply_to) {  // ответ встаёт в ветку своего родителя
+            const pel = document.getElementById('comment-' + c.reply_to);
+            if (pel) container = pel.querySelector('.replies');
+          }
+          addComment(c, container);
+          setReplyTo(null);
+          ev.target.reset();
+          if (isOwner) {  // вернуть предзаполнение после сброса формы
+            document.getElementById('cname').value = 'Роман';
+            document.getElementById('cmail').value = 'kirillov4@mail.ru';
+          }
+          refreshCount();
+          return;
+        }
+        const data = await r.json().catch(() => null);
+        err.textContent = (data && data.detail) ? data.detail : 'Не удалось отправить комментарий.';
+      }).catch(() => {
+        btn.disabled = false;
+        err.textContent = 'Не удалось отправить комментарий.';
+      });
+    });
+  } else {
+    document.getElementById('title').textContent = 'Запись не найдена';
+    document.getElementById('meta').textContent = 'Возможно, она была удалена или ссылка неверна.';
+    document.getElementById('body').innerHTML = '<p>Вернитесь на <a href="index.html">главную страницу</a> и выберите другую запись.</p>';
+  }
+</script>
+
+</body>
+</html>
